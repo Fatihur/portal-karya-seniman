@@ -2,53 +2,54 @@
 
 @section('title', 'Review Karya')
 
-@section('content_header')
-    <h1>Review Karya</h1>
-    <a href="{{ route('admin.karya.index') }}" class="btn btn-secondary btn-sm">
-        <i class="fas fa-arrow-left mr-1"></i> Kembali
-    </a>
-@stop
-
 @section('content')
-    <div class="row">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header bg-warning">
-                    <h3 class="card-title">Detail Karya yang Diajukan</h3>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <a href="{{ route('admin.karya.index') }}" class="btn btn-secondary btn-sm">
+            <i class="bi bi-arrow-left me-1"></i> Kembali
+        </a>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-lg-8">
+            <div class="card mb-3">
+                <div class="card-header bg-warning text-dark">
+                    <h6 class="mb-0">Detail Karya yang Diajukan</h6>
                 </div>
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row g-3">
                         <div class="col-md-6">
-                            <img src="{{ $karya->thumbnail_url }}" class="img-fluid rounded" alt="{{ $karya->judul_karya }}">
+                            <img src="{{ $karya->thumbnail_url }}" class="img-fluid rounded w-100" style="max-height: 300px; object-fit: cover;" alt="{{ $karya->judul_karya }}">
                         </div>
                         <div class="col-md-6">
-                            <h4>{{ $karya->judul_karya }}</h4>
+                            <h5>{{ $karya->judul_karya }}</h5>
                             <p class="text-muted">{{ $karya->deskripsi_singkat }}</p>
                             
-                            <table class="table table-sm">
-                                <tr>
-                                    <td><strong>Seniman</strong></td>
-                                    <td>: {{ $karya->user?->nama }}</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Kategori</strong></td>
-                                    <td>: {{ $karya->kategori?->nama_kategori }}</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Tahun</strong></td>
-                                    <td>: {{ $karya->tahun_karya ?? '-' }}</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Media</strong></td>
-                                    <td>: {{ $karya->media_karya ?? '-' }}</td>
-                                </tr>
-                            </table>
+                            <div class="table-responsive-wrapper">
+                                <table class="table table-sm table-borderless">
+                                    <tr>
+                                        <td style="width: 100px;"><strong>Seniman</strong></td>
+                                        <td>: {{ $karya->user?->nama }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Kategori</strong></td>
+                                        <td>: {{ $karya->kategori?->nama_kategori }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Tahun</strong></td>
+                                        <td>: {{ $karya->tahun_karya ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Media</strong></td>
+                                        <td>: {{ $karya->media_karya ?? '-' }}</td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     
                     @if($karya->deskripsi_lengkap)
                     <hr>
-                    <h5>Deskripsi Lengkap</h5>
+                    <h6>Deskripsi Lengkap</h6>
                     <p>{!! nl2br(e($karya->deskripsi_lengkap)) !!}</p>
                     @endif
                 </div>
@@ -57,13 +58,13 @@
             @if($karya->mediaKarya->count() > 0)
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Galeri Media Tambahan</h3>
+                    <h6 class="mb-0">Galeri Media Tambahan</h6>
                 </div>
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row g-2">
                         @foreach($karya->mediaKarya as $media)
-                        <div class="col-md-3 mb-3">
-                            <img src="{{ $media->url }}" class="img-thumbnail w-100" style="height: 150px; object-fit: cover;" alt="Media">
+                        <div class="col-6 col-md-3">
+                            <img src="{{ $media->url }}" class="img-thumbnail w-100" style="height: 120px; object-fit: cover;" alt="Media">
                         </div>
                         @endforeach
                     </div>
@@ -72,55 +73,68 @@
             @endif
         </div>
         
-        <div class="col-md-4">
+        <div class="col-lg-4">
             <div class="card">
-                <div class="card-header bg-primary">
-                    <h3 class="card-title">Form Review</h3>
+                <div class="card-header bg-primary text-white">
+                    <h6 class="mb-0">Form Review</h6>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.karya.submit-review', $karya) }}" method="POST">
+                    @if($karya->catatan_reviewer)
+                    <div class="alert alert-info mb-3">
+                        <strong>Catatan Reviewer:</strong><br>
+                        {{ $karya->catatan_reviewer }}
+                    </div>
+                    @endif
+                    
+                    <form action="{{ route('admin.karya.review.submit', $karya) }}" method="POST">
                         @csrf
+                        @method('PUT')
                         
-                        <div class="form-group">
-                            <label>Status Review *</label>
-                            <div class="d-flex flex-column gap-2">
-                                <div class="custom-control custom-radio">
-                                    <input class="custom-control-input" type="radio" name="status" id="status_disetujui" value="disetujui" required>
-                                    <label class="custom-control-label" for="status_disetujui">
-                                        <span class="badge badge-success">Setujui & Publikasikan</span>
-                                    </label>
-                                </div>
-                                <div class="custom-control custom-radio">
-                                    <input class="custom-control-input" type="radio" name="status" id="status_revisi" value="perlu_revisi">
-                                    <label class="custom-control-label" for="status_revisi">
-                                        <span class="badge badge-warning">Perlu Revisi</span>
-                                    </label>
-                                </div>
-                                <div class="custom-control custom-radio">
-                                    <input class="custom-control-input" type="radio" name="status" id="status_ditolak" value="ditolak">
-                                    <label class="custom-control-label" for="status_ditolak">
-                                        <span class="badge badge-danger">Tolak</span>
-                                    </label>
-                                </div>
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Status Review</label>
+                            <select name="status" class="form-select" required>
+                                <option value="">Pilih Status...</option>
+                                <option value="dipublikasikan">Setuju - Dipublikasikan</option>
+                                <option value="perlu_revisi">Perlu Revisi</option>
+                                <option value="ditolak">Tolak</option>
+                            </select>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="catatan_review">Catatan Review *</label>
-                            <textarea class="form-control @error('catatan_review') is-invalid @enderror" 
-                                      id="catatan_review" name="catatan_review" rows="4" required
-                                      placeholder="Berikan catatan untuk seniman...">{{ old('catatan_review') }}</textarea>
-                            @error('catatan_review')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                        <div class="mb-3">
+                            <label class="form-label">Catatan untuk Seniman</label>
+                            <textarea name="catatan" class="form-control" rows="4" placeholder="Berikan catatan atau saran perbaikan..."></textarea>
                         </div>
                         
-                        <button type="submit" class="btn btn-primary btn-block">
-                            <i class="fas fa-save mr-1"></i> Simpan Review
-                        </button>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle me-2"></i> Submit Review
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 @stop
+
+@push('styles')
+<style>
+    .table-responsive-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .table-responsive-wrapper::-webkit-scrollbar {
+        height: 6px;
+    }
+    
+    .table-responsive-wrapper::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    
+    .table-responsive-wrapper::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 3px;
+    }
+</style>
+@endpush

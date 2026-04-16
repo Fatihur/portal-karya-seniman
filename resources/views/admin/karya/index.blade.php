@@ -2,149 +2,229 @@
 
 @section('title', 'Manajemen Karya Seni')
 
-@section('content_header')
-    <div class="d-flex justify-content-between align-items-center">
-        <h1 class="m-0">Manajemen Karya Seni</h1>
-        <a href="{{ route('admin.karya.index') }}" class="btn btn-outline-primary">
-            <i class="fas fa-sync-alt mr-1"></i> Refresh
-        </a>
-    </div>
-@stop
-
 @section('content')
-    <!-- Status Counts -->
-    <div class="row mb-3">
-        <div class="col-lg-2 col-md-4 col-sm-6">
-            <a href="{{ route('admin.karya.index') }}" class="text-dark">
-                <div class="info-box">
-                    <span class="info-box-icon bg-secondary"><i class="fas fa-palette"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">Total</span>
-                        <span class="info-box-number">{{ $statusCounts['total'] }}</span>
+    <!-- Status Filter Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-lg-2 col-md-4 col-6">
+            <a href="{{ route('admin.karya.index') }}" class="text-decoration-none">
+                <div class="card {{ !request('status') ? 'border-danger' : '' }}">
+                    <div class="card-body p-3 d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <i class="bi bi-palette fs-2 text-secondary"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="text-muted mb-0">Total</h6>
+                            <h5 class="mb-0">{{ $statusCounts['total'] }}</h5>
+                        </div>
                     </div>
                 </div>
             </a>
         </div>
-        <div class="col-lg-2 col-md-4 col-sm-6">
-            <a href="{{ route('admin.karya.index', ['status' => 'diajukan']) }}" class="text-dark">
-                <div class="info-box">
-                    <span class="info-box-icon bg-warning"><i class="fas fa-clock"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">Menunggu</span>
-                        <span class="info-box-number">{{ $statusCounts['diajukan'] }}</span>
+        
+        <div class="col-lg-2 col-md-4 col-6">
+            <a href="{{ route('admin.karya.index', ['status' => 'diajukan']) }}" class="text-decoration-none">
+                <div class="card {{ request('status') == 'diajukan' ? 'border-warning' : '' }}">
+                    <div class="card-body p-3 d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <i class="bi bi-clock fs-2 text-warning"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="text-muted mb-0">Menunggu</h6>
+                            <h5 class="mb-0">{{ $statusCounts['diajukan'] }}</h5>
+                        </div>
                     </div>
                 </div>
             </a>
         </div>
-        <div class="col-lg-2 col-md-4 col-sm-6">
-            <a href="{{ route('admin.karya.index', ['status' => 'perlu_revisi']) }}" class="text-dark">
-                <div class="info-box">
-                    <span class="info-box-icon bg-orange"><i class="fas fa-edit"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">Revisi</span>
-                        <span class="info-box-number">{{ $statusCounts['perlu_revisi'] }}</span>
+        
+        <div class="col-lg-2 col-md-4 col-6">
+            <a href="{{ route('admin.karya.index', ['status' => 'perlu_revisi']) }}" class="text-decoration-none">
+                <div class="card {{ request('status') == 'perlu_revisi' ? 'border-secondary' : '' }}">
+                    <div class="card-body p-3 d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <i class="bi bi-pencil fs-2 text-secondary"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="text-muted mb-0">Revisi</h6>
+                            <h5 class="mb-0">{{ $statusCounts['perlu_revisi'] }}</h5>
+                        </div>
                     </div>
                 </div>
             </a>
         </div>
-        <div class="col-lg-2 col-md-4 col-sm-6">
-            <a href="{{ route('admin.karya.index', ['status' => 'dipublikasikan']) }}" class="text-dark">
-                <div class="info-box">
-                    <span class="info-box-icon bg-success"><i class="fas fa-check"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">Publikasi</span>
-                        <span class="info-box-number">{{ $statusCounts['dipublikasikan'] }}</span>
+        
+        <div class="col-lg-2 col-md-4 col-6">
+            <a href="{{ route('admin.karya.index', ['status' => 'dipublikasikan']) }}" class="text-decoration-none">
+                <div class="card {{ request('status') == 'dipublikasikan' ? 'border-success' : '' }}">
+                    <div class="card-body p-3 d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <i class="bi bi-check-circle fs-2 text-success"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="text-muted mb-0">Publikasi</h6>
+                            <h5 class="mb-0">{{ $statusCounts['dipublikasikan'] }}</h5>
+                        </div>
                     </div>
                 </div>
             </a>
         </div>
-        <div class="col-lg-2 col-md-4 col-sm-6">
-            <a href="{{ route('admin.karya.index', ['status' => 'ditolak']) }}" class="text-dark">
-                <div class="info-box">
-                    <span class="info-box-icon bg-danger"><i class="fas fa-times"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">Ditolak</span>
-                        <span class="info-box-number">{{ $statusCounts['ditolak'] }}</span>
+        
+        <div class="col-lg-2 col-md-4 col-6">
+            <a href="{{ route('admin.karya.index', ['status' => 'ditolak']) }}" class="text-decoration-none">
+                <div class="card {{ request('status') == 'ditolak' ? 'border-danger' : '' }}">
+                    <div class="card-body p-3 d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <i class="bi bi-x-circle fs-2 text-danger"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="text-muted mb-0">Ditolak</h6>
+                            <h5 class="mb-0">{{ $statusCounts['ditolak'] }}</h5>
+                        </div>
                     </div>
                 </div>
             </a>
         </div>
-        <div class="col-lg-2 col-md-4 col-sm-6">
-            <a href="{{ route('admin.karya.index', ['status' => 'draft']) }}" class="text-dark">
-                <div class="info-box">
-                    <span class="info-box-icon bg-info"><i class="fas fa-file"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">Draft</span>
-                        <span class="info-box-number">{{ $statusCounts['draft'] }}</span>
+        
+        <div class="col-lg-2 col-md-4 col-6">
+            <a href="{{ route('admin.karya.index', ['status' => 'draft']) }}" class="text-decoration-none">
+                <div class="card {{ request('status') == 'draft' ? 'border-info' : '' }}">
+                    <div class="card-body p-3 d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <i class="bi bi-file-earmark fs-2 text-info"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="text-muted mb-0">Draft</h6>
+                            <h5 class="mb-0">{{ $statusCounts['draft'] }}</h5>
+                        </div>
                     </div>
                 </div>
             </a>
         </div>
     </div>
 
+    <!-- Main Table Card -->
     <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Daftar Karya Seni</h3>
-            <div class="card-tools">
-                <form action="{{ route('admin.karya.index') }}" method="GET" class="input-group input-group-sm" style="width: 300px;">
-                    <input type="text" name="q" class="form-control" placeholder="Cari karya..." value="{{ request('q') }}">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-default">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Daftar Karya Seni</h5>
+            <div class="d-flex gap-2">
+                <form action="{{ route('admin.karya.index') }}" method="GET" class="d-flex">
+                    <input type="text" name="q" class="form-control form-control-sm" placeholder="Cari karya..." value="{{ request('q') }}" style="width: 250px;">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary ms-2">
+                        <i class="bi bi-search"></i>
+                    </button>
                 </form>
+                <a href="{{ route('admin.karya.index') }}" class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-arrow-clockwise"></i> Refresh
+                </a>
             </div>
         </div>
-        <div class="card-body table-responsive p-0">
-            <table class="table table-hover text-nowrap">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Thumbnail</th>
-                        <th>Judul Karya</th>
-                        <th>Seniman</th>
-                        <th>Kategori</th>
-                        <th>Status</th>
-                        <th>Tanggal Diajukan</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($karyaList as $index => $karya)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>
-                            <img src="{{ $karya->thumbnail_url }}" class="img-thumbnail" style="max-height: 50px;" alt="{{ $karya->judul_karya }}">
-                        </td>
-                        <td>{{ Str::limit($karya->judul_karya, 40) }}</td>
-                        <td>{{ $karya->user?->nama }}</td>
-                        <td>{{ $karya->kategori?->nama_kategori }}</td>
-                        <td>
-                            <span class="badge badge-{{ $karya->status_badge_color }}">{{ $karya->status_label }}</span>
-                        </td>
-                        <td>{{ $karya->diajukan_pada?->format('d/m/Y H:i') ?? '-' }}</td>
-                        <td>
-                            <a href="{{ route('admin.karya.show', $karya) }}" class="btn btn-sm btn-info" title="Detail">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                            @if($karya->status_karya == 'diajukan')
-                            <a href="{{ route('admin.karya.review', $karya) }}" class="btn btn-sm btn-primary" title="Review">
-                                <i class="fas fa-gavel"></i>
-                            </a>
-                            @endif
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="8" class="text-center">Belum ada karya</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
+        <div class="card-body p-0">
+            <div class="table-responsive-wrapper">
+                <table class="table table-hover table-sm align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 50px;">No</th>
+                            <th style="width: 80px;">Thumbnail</th>
+                            <th>Judul</th>
+                            <th class="d-none d-md-table-cell">Seniman</th>
+                            <th class="d-none d-lg-table-cell">Kategori</th>
+                            <th>Status</th>
+                            <th class="d-none d-sm-table-cell">Tanggal</th>
+                            <th style="width: 100px;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($karyaList as $index => $karya)
+                        <tr>
+                            <td>{{ $karyaList->firstItem() + $index }}</td>
+                            <td>
+                                @if($karya->thumbnail_url)
+                                <img src="{{ $karya->thumbnail_url }}" class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;" alt="{{ $karya->judul_karya }}">
+                                @else
+                                <div class="bg-secondary text-white d-flex align-items-center justify-content-center rounded" style="width: 50px; height: 50px;">
+                                    <i class="bi bi-image"></i>
+                                </div>
+                                @endif
+                            </td>
+                            <td>
+                                <div class="text-truncate" style="max-width: 150px;">{{ Str::limit($karya->judul_karya, 30) }}</div>
+                            </td>
+                            <td class="d-none d-md-table-cell">{{ $karya->user?->nama ?? '-' }}</td>
+                            <td class="d-none d-lg-table-cell">{{ $karya->kategori?->nama_kategori ?? '-' }}</td>
+                            <td>
+                                @php
+                                    $badgeClass = match($karya->status_karya) {
+                                        'dipublikasikan' => 'bg-success',
+                                        'diajukan' => 'bg-warning text-dark',
+                                        'perlu_revisi' => 'bg-secondary',
+                                        'ditolak' => 'bg-danger',
+                                        'draft' => 'bg-info',
+                                        default => 'bg-light text-dark'
+                                    };
+                                    $statusLabel = match($karya->status_karya) {
+                                        'dipublikasikan' => 'Dipublikasikan',
+                                        'diajukan' => 'Diajukan',
+                                        'perlu_revisi' => 'Perlu Revisi',
+                                        'ditolak' => 'Ditolak',
+                                        'draft' => 'Draft',
+                                        default => $karya->status_karya
+                                    };
+                                @endphp
+                                <span class="badge {{ $badgeClass }} small">{{ $statusLabel }}</span>
+                            </td>
+                            <td class="d-none d-sm-table-cell small">{{ $karya->diajukan_pada?->format('d/m/Y') ?? '-' }}</td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="{{ route('admin.karya.show', $karya) }}" class="btn btn-outline-info" title="Detail">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    @if($karya->status_karya == 'diajukan')
+                                    <a href="{{ route('admin.karya.review', $karya) }}" class="btn btn-outline-primary" title="Review">
+                                        <i class="bi bi-journal-check"></i>
+                                    </a>
+                                    @endif
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="8" class="text-center py-4">Belum ada karya</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="card-footer clearfix">
+        @if($karyaList->hasPages())
+        <div class="card-footer">
             {{ $karyaList->withQueryString()->links() }}
         </div>
+        @endif
     </div>
 @stop
+
+@push('styles')
+<style>
+    .table-responsive-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .table-responsive-wrapper table {
+        min-width: 600px;
+    }
+    
+    .table-responsive-wrapper::-webkit-scrollbar {
+        height: 6px;
+    }
+    
+    .table-responsive-wrapper::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    
+    .table-responsive-wrapper::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 3px;
+    }
+</style>
+@endpush

@@ -1,347 +1,372 @@
-@extends('adminlte::page')
-
-{{-- Bootstrap Icons CSS --}}
-@section('adminlte_css')
-    @parent
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-@stop
-
-{{-- Flash Messages --}}
-@section('content_header')
-    @if(session('error'))
-        <div class="alert alert-danger alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <h5><i class="icon fas fa-ban"></i> Akses Ditolak!</h5>
-            {{ session('error') }}
-        </div>
-    @endif
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title', 'Admin Panel') | Portal Karya Seniman</title>
     
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <h5><i class="icon fas fa-check"></i> Berhasil!</h5>
-            {{ session('success') }}
-        </div>
-    @endif
-@stop
-
-{{-- Icon Picker Styles --}}
-@push('css')
-<style>
-    .icon-picker-container {
-        position: relative;
-    }
-    .icon-picker-dropdown {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: white;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        z-index: 1000;
-        max-height: 300px;
-        overflow-y: auto;
-        padding: 10px;
-        margin-top: 5px;
-    }
-    .icon-picker-dropdown.show {
-        display: block;
-    }
-    .icon-picker-search {
-        width: 100%;
-        padding: 8px 12px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        margin-bottom: 10px;
-    }
-    .icon-picker-grid {
-        display: grid;
-        grid-template-columns: repeat(8, 1fr);
-        gap: 8px;
-    }
-    .icon-picker-item {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-        border: 2px solid #e9ecef;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: all 0.2s;
-        font-size: 1.2rem;
-        color: #6c757d;
-    }
-    .icon-picker-item:hover {
-        border-color: #B83B3B;
-        background: #f8f9fa;
-        color: #B83B3B;
-    }
-    .icon-picker-item.selected {
-        border-color: #B83B3B;
-        background: #B83B3B;
-        color: white;
-    }
-    .icon-preview-btn {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
-    }
-    .icon-preview-box {
-        width: 38px;
-        height: 38px;
-        border: 2px dashed #ced4da;
-        border-radius: 6px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-        color: #6c757d;
-        background: #f8f9fa;
-    }
-    .icon-preview-box.has-icon {
-        border-color: #B83B3B;
-        background: white;
-        color: #B83B3B;
-    }
-</style>
-@endpush
-
-{{-- Inject Logout Form and Script --}}
-@section('adminlte_js')
-    @parent
+    <link rel="shortcut icon" href="{{ asset('sumbawa.png') }}">
     
-    {{-- Hidden Logout Form --}}
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-        @csrf
-    </form>
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     
-    {{-- Logout Script --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Handle sidebar logout click
-            var logoutLink = document.getElementById('logout-sidebar-link');
-            if (logoutLink) {
-                logoutLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    if (confirm('Yakin ingin logout?')) {
-                        document.getElementById('logout-form').submit();
-                    }
-                });
-            }
-        });
-    </script>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     
-    {{-- Icon Picker Script --}}
-    <script>
-        // Bootstrap Icons Common Set
-        const bootstrapIcons = [
-            'bi-house', 'bi-building', 'bi-bank', 'bi-shop', 'bi-hospital',
-            'bi-people', 'bi-person', 'bi-person-circle', 'bi-person-fill',
-            'bi-palette', 'bi-brush', 'bi-paint-bucket', 'bi-easel',
-            'bi-music-note', 'bi-music-note-beamed', 'bi-music-player',
-            'bi-camera', 'bi-film', 'bi-film-strip', 'bi-image',
-            'bi-book', 'bi-journal', 'bi-newspaper', 'bi-pencil',
-            'bi-award', 'bi-trophy', 'bi-star', 'bi-stars',
-            'bi-heart', 'bi-heart-fill', 'bi-love',
-            'bi-globe', 'bi-geo-alt', 'bi-map', 'bi-pin-map',
-            'bi-envelope', 'bi-telephone', 'bi-phone', 'bi-chat',
-            'bi-calendar', 'bi-clock', 'bi-clock-history',
-            'bi-folder', 'bi-folder-fill', 'bi-archive',
-            'bi-tag', 'bi-tags', 'bi-bookmark', 'bi-bookmark-fill',
-            'bi-search', 'bi-zoom-in', 'bi-zoom-out',
-            'bi-eye', 'bi-eye-fill', 'bi-eye-slash',
-            'bi-hand-thumbs-up', 'bi-hand-thumbs-down',
-            'bi-share', 'bi-send', 'bi-mailbox',
-            'bi-box', 'bi-box-seam', 'bi-gift', 'bi-bag',
-            'bi-cart', 'bi-cart-fill', 'bi-cart-check',
-            'bi-cash', 'bi-credit-card', 'bi-wallet',
-            'bi-gear', 'bi-gear-fill', 'bi-tools', 'bi-wrench',
-            'bi-sliders', 'bi-sliders2', 'bi-funnel',
-            'bi-brightness-high', 'bi-moon', 'bi-sun',
-            'bi-cloud', 'bi-cloud-sun', 'bi-cloud-rain',
-            'bi-bicycle', 'bi-car-front', 'bi-bus-front',
-            'bi-airplane', 'bi-train-front', 'bi-rocket',
-            'bi-flower1', 'bi-flower2', 'bi-flower3', 'bi-tree',
-            'bi-cup', 'bi-cup-fill', 'bi-cup-straw',
-            'bi-egg', 'bi-egg-fried', 'bi-basket',
-            'bi-balloon', 'bi-balloon-fill', 'bi-balloon-heart',
-            'bi-emoji-smile', 'bi-emoji-laughing', 'bi-emoji-sunglasses',
-            'bi-lightning', 'bi-lightning-charge', 'bi-battery-full',
-            'bi-wifi', 'bi-bluetooth', 'bi-broadcast',
-            'bi-shield', 'bi-shield-check', 'bi-shield-lock',
-            'bi-key', 'bi-lock', 'bi-unlock',
-            'bi-flag', 'bi-flag-fill', 'bi-pin', 'bi-pin-angle',
-            'bi-link', 'bi-link-45deg', 'bi-paperclip',
-            'bi-printer', 'bi-laptop', 'bi-pc-display',
-            'bi-phone', 'bi-tablet', 'bi-watch',
-            'bi-cpu', 'bi-memory', 'bi-hdd', 'bi-hdd-network',
-            'bi-router', 'bi-server', 'bi-database',
-            'bi-file', 'bi-file-earmark', 'bi-files',
-            'bi-file-image', 'bi-file-music', 'bi-file-play',
-            'bi-calendar-event', 'bi-calendar-check', 'bi-calendar-date',
-            'bi-clock', 'bi-stopwatch', 'bi-hourglass',
-            'bi-bell', 'bi-bell-fill', 'bi-alarm',
-            'bi-megaphone', 'bi-mic', 'bi-mic-fill',
-            'bi-headphones', 'bi-speaker', 'bi-volume-up',
-            'bi-camera-video', 'bi-camera-video-fill', 'bi-webcam',
-            'bi-binoculars', 'bi-compass', 'bi-geo',
-            'bi-activity', 'bi-graph-up', 'bi-graph-down',
-            'bi-bar-chart', 'bi-bar-chart-line', 'bi-pie-chart',
-            'bi-speedometer', 'bi-speedometer2',
-            'bi-reception-0', 'bi-reception-1', 'bi-reception-2', 'bi-reception-3', 'bi-reception-4',
-            'bi-briefcase', 'bi-briefcase-fill', 'bi-bag-check',
-            'bi-backpack', 'bi-backpack-fill', 'bi-bag-dash',
-            'bi-mask', 'bi-mask-theater', 'bi-film',
-            'bi-projector', 'bi-dice-1', 'bi-dice-2', 'bi-dice-3', 'bi-dice-4', 'bi-dice-5', 'bi-dice-6',
-            'bi-controller', 'bi-joystick', 'bi-usb-drive',
-            'bi-boombox', 'bi-speaker', 'bi-speaker-fill',
-            'bi-stripe', 'bi-paypal', 'bi-credit-card-2-front',
-            'bi-patch-check', 'bi-patch-check-fill', 'bi-patch-exclamation',
-            'bi-circle', 'bi-circle-fill', 'bi-record-circle',
-            'bi-square', 'bi-square-fill', 'bi-check-square',
-            'bi-triangle', 'bi-triangle-fill', 'bi-pentagon',
-            'bi-hexagon', 'bi-octagon', 'bi-heart',
-            'bi-diamond', 'bi-gem', 'bi-egg',
-            'bi-capsule', 'bi-capsule-pill', 'bi-bandaid',
-            'bi-prescription', 'bi-prescription2', 'bi-clipboard',
-            'bi-clipboard-check', 'bi-clipboard-data', 'bi-clipboard-plus',
-            'bi-journal-text', 'bi-journal-check', 'bi-journal-medical',
-            'bi-file-medical', 'bi-file-medical-alt',
-            'bi-heart-pulse', 'bi-lungs', 'bi-brain',
-            'bi-virus', 'bi-bacteria', 'bi-bandaid-fill',
-            'bi-scissors', 'bi-eyedropper', 'bi-thermometer',
-            'bi-stethoscope', 'bi-hammer', 'bi-bricks',
-            'bi-cone', 'bi-cone-striped', 'bi-sign-stop',
-            'bi-sign-stop-lights', 'bi-sign-turn-left', 'bi-sign-turn-right',
-            'bi-traffic-light', 'bi-ev-station', 'bi-fuel-pump',
-            'bi-bucket', 'bi-mop', 'bi-brush',
-            'bi-droplet', 'bi-droplet-fill', 'bi-water',
-            'bi-snow', 'bi-snow2', 'bi-snow3',
-            'bi-fire', 'bi-fireplace', 'bi-candle',
-            'bi-incognito', 'bi-glasses', 'bi-sunglasses',
-            'bi-umbrella', 'bi-umbrella-fill', 'bi-rainbow',
-            'bi-brightness-alt-high', 'bi-brightness-alt-low',
-            'bi-grid', 'bi-grid-fill', 'bi-grid-3x3',
-            'bi-border-all', 'bi-border-style', 'bi-border-outer',
-            'bi-window', 'bi-window-fullscreen', 'bi-window-stack',
-            'bi-menu-up', 'bi-menu-down', 'bi-menu-button',
-            'bi-chevron-up', 'bi-chevron-down', 'bi-chevron-left', 'bi-chevron-right',
-            'bi-arrow-up', 'bi-arrow-down', 'bi-arrow-left', 'bi-arrow-right',
-            'bi-caret-up', 'bi-caret-down', 'bi-caret-left', 'bi-caret-right',
-            'bi-upload', 'bi-download', 'bi-cloud-upload', 'bi-cloud-download',
-            'bi-box-arrow-in-up', 'bi-box-arrow-in-down', 'bi-box-arrow-in-left', 'bi-box-arrow-in-right',
-            'bi-box-arrow-up', 'bi-box-arrow-down', 'bi-box-arrow-left', 'bi-box-arrow-right',
-            'bi-trash', 'bi-trash-fill', 'bi-x-lg', 'bi-x-circle',
-            'bi-check-lg', 'bi-check-circle', 'bi-check-all',
-            'bi-plus-lg', 'bi-plus-circle', 'bi-plus-square',
-            'bi-dash-lg', 'bi-dash-circle', 'bi-dash-square',
-            'bi-info-lg', 'bi-info-circle', 'bi-exclamation-lg', 'bi-exclamation-circle',
-            'bi-question-lg', 'bi-question-circle', 'bi-question-diamond',
-            'bi-slash-lg', 'bi-asterisk', 'bi-hash',
-            'bi-at', 'bi-link-45deg', 'bi-envelope-at',
-            'bi-envelope-open', 'bi-envelope-fill', 'bi-envelope-heart',
-            'bi-chat-left', 'bi-chat-right', 'bi-chat-dots',
-            'bi-telegram', 'bi-whatsapp', 'bi-instagram',
-            'bi-facebook', 'bi-twitter', 'bi-youtube',
-            'bi-tiktok', 'bi-linkedin', 'bi-github',
-            'bi-google', 'bi-microsoft', 'bi-apple',
-            'bi-browser-chrome', 'bi-browser-firefox', 'bi-browser-edge',
-            'bi-bootstrap', 'bi-bootstrap-fill', 'bi-bootstrap-reboot'
-        ];
-
-        function initIconPicker(inputId, previewId, dropdownId) {
-            const input = document.getElementById(inputId);
-            const preview = document.getElementById(previewId);
-            const dropdown = document.getElementById(dropdownId);
-            
-            if (!input || !preview || !dropdown) return;
-            
-            // Build icon grid
-            function buildIconGrid(filter = '') {
-                const icons = filter 
-                    ? bootstrapIcons.filter(icon => icon.includes(filter.toLowerCase()))
-                    : bootstrapIcons;
-                    
-                let html = '<div class="icon-picker-grid">';
-                icons.forEach(icon => {
-                    const isSelected = input.value === icon ? 'selected' : '';
-                    html += `<div class="icon-picker-item ${isSelected}" data-icon="${icon}" title="${icon}">
-                        <i class="bi ${icon}"></i>
-                    </div>`;
-                });
-                html += '</div>';
-                return html;
-            }
-            
-            // Update preview
-            function updatePreview() {
-                if (input.value) {
-                    preview.innerHTML = `<i class="bi ${input.value}"></i>`;
-                    preview.classList.add('has-icon');
-                } else {
-                    preview.innerHTML = '<i class="bi bi-image"></i>';
-                    preview.classList.remove('has-icon');
-                }
-            }
-            
-            // Create picker HTML
-            dropdown.innerHTML = `
-                <input type="text" class="icon-picker-search" placeholder="Cari icon... (contoh: house, music, user)">
-                <div class="icon-picker-content">${buildIconGrid()}</div>
-            `;
-            
-            // Toggle dropdown
-            preview.addEventListener('click', function() {
-                dropdown.classList.toggle('show');
-                if (dropdown.classList.contains('show')) {
-                    dropdown.querySelector('.icon-picker-search').focus();
-                }
-            });
-            
-            // Close when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!preview.contains(e.target) && !dropdown.contains(e.target)) {
-                    dropdown.classList.remove('show');
-                }
-            });
-            
-            // Search functionality
-            const searchInput = dropdown.querySelector('.icon-picker-search');
-            searchInput.addEventListener('input', function() {
-                dropdown.querySelector('.icon-picker-content').innerHTML = buildIconGrid(this.value);
-                attachIconClickHandlers();
-            });
-            
-            // Icon selection
-            function attachIconClickHandlers() {
-                dropdown.querySelectorAll('.icon-picker-item').forEach(item => {
-                    item.addEventListener('click', function() {
-                        const iconClass = this.dataset.icon;
-                        input.value = iconClass;
-                        updatePreview();
-                        dropdown.classList.remove('show');
-                        
-                        // Update selected state
-                        dropdown.querySelectorAll('.icon-picker-item').forEach(i => i.classList.remove('selected'));
-                        this.classList.add('selected');
-                    });
-                });
-            }
-            
-            attachIconClickHandlers();
-            updatePreview();
+    <!-- Global Styles -->
+    <style>
+        :root {
+            --sumbawa-red: #b63124;
+            --sumbawa-red-dark: #9e2b20;
         }
         
-        // Auto-init on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            if (document.getElementById('ikon')) {
-                initIconPicker('ikon', 'icon-preview', 'icon-picker-dropdown');
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .admin-navbar {
+            background-color: var(--sumbawa-red);
+        }
+        
+        .admin-navbar .navbar-logo {
+            height: 40px;
+        }
+        
+        @media (max-width: 575px) {
+            .admin-navbar .navbar-logo {
+                height: 35px;
             }
+        }
+        
+        /* Mobile Sidebar Offcanvas */
+        .offcanvas-sidebar {
+            width: 280px;
+            background-color: #fff;
+            z-index: 1050;
+        }
+        
+        .offcanvas-backdrop {
+            z-index: 1040;
+        }
+        
+        .offcanvas-sidebar .offcanvas-header {
+            background-color: var(--sumbawa-red);
+            color: white;
+        }
+        
+        .offcanvas-sidebar .list-group-item {
+            border-left: none;
+            border-right: none;
+            padding: 12px 16px;
+        }
+        
+        .offcanvas-sidebar .list-group-item.active {
+            background-color: var(--sumbawa-red);
+            border-color: var(--sumbawa-red);
+        }
+        
+        .offcanvas-sidebar .list-group-item {
+            cursor: pointer;
+        }
+        
+        /* Mobile toggle button */
+        .mobile-toggle {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 4px;
+            background: transparent;
+            cursor: pointer;
+        }
+        
+        .mobile-toggle:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* Desktop Sidebar */
+        .sidebar-desktop {
+            background-color: #fff;
+            min-height: calc(100vh - 56px);
+            border-right: 1px solid #dee2e6;
+        }
+        
+        @media (max-width: 767px) {
+            .sidebar-desktop {
+                display: none !important;
+            }
+        }
+        
+        .sidebar-desktop .list-group-item {
+            border-left: none;
+            border-right: none;
+            border-radius: 0;
+            padding: 12px 16px;
+        }
+        
+        .sidebar-desktop .list-group-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .sidebar-desktop .list-group-item.active {
+            background-color: var(--sumbawa-red);
+            border-color: var(--sumbawa-red);
+        }
+        
+        .admin-content {
+            background-color: #fff;
+            min-height: calc(100vh - 56px);
+        }
+        
+        /* Table Responsive */
+        .table-responsive-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .table-responsive-wrapper table {
+            min-width: 600px;
+        }
+        
+        .table-responsive-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .table-responsive-wrapper::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        .table-responsive-wrapper::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 767px) {
+            .admin-content {
+                padding: 15px !important;
+            }
+        }
+        
+        @media (max-width: 575px) {
+            .admin-content {
+                padding: 10px !important;
+            }
+            
+            .card-header h6 {
+                font-size: 14px;
+            }
+        }
+    </style>
+    
+    @stack('styles')
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand admin-navbar navbar-dark sticky-top">
+        <div class="container-fluid px-3">
+            <!-- Left: Toggle & Logo -->
+            <div class="d-flex align-items-center">
+                <button class="mobile-toggle text-white me-2 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar" aria-controls="mobileSidebar" aria-label="Toggle menu">
+                    <i class="bi bi-list fs-4"></i>
+                </button>
+                <a class="navbar-brand d-flex align-items-center p-0" href="{{ route('admin.dashboard') }}">
+                    <img src="{{ asset('sumbawa.png') }}" alt="Logo" class="navbar-logo me-2">
+                    <span class="fw-bold text-white d-none d-sm-block">Admin Panel</span>
+                    <span class="fw-bold text-white d-sm-none" style="font-size: 14px;">Admin</span>
+                </a>
+            </div>
+            
+            <!-- Right: User Dropdown -->
+            <div class="dropdown">
+                <button class="btn btn-link text-white p-0 dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle fs-5"></i>
+                    <span class="d-none d-md-inline ms-2">{{ Str::limit(Auth::user()->nama, 15) }}</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow">
+                    <li>
+                        <a class="dropdown-item" href="{{ route('home') }}" target="_blank">
+                            <i class="bi bi-globe me-2 text-primary"></i> Lihat Website
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <span class="dropdown-item-text text-muted">
+                            <small>{{ Auth::user()->email }}</small>
+                        </span>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item text-danger" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="bi bi-box-arrow-right me-2"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+        @csrf
+    </form>
+
+    <!-- Mobile Sidebar Offcanvas -->
+    <div class="offcanvas offcanvas-start offcanvas-sidebar" tabindex="-1" id="mobileSidebar" aria-labelledby="mobileSidebarLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="mobileSidebarLabel">Menu Admin</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <div class="list-group list-group-flush" id="mobileMenu">
+                <a href="{{ route('admin.dashboard') }}" class="list-group-item list-group-item-action py-3 {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                    <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                </a>
+                
+                <div class="list-group-item bg-light fw-bold text-uppercase small py-2 text-muted">
+                    Manajemen Konten
+                </div>
+                
+                <a href="{{ route('admin.karya.index') }}" class="list-group-item list-group-item-action py-3 {{ request()->routeIs('admin.karya.*') ? 'active' : '' }}">
+                    <i class="bi bi-palette me-2"></i> Karya Seni
+                </a>
+                
+                <a href="{{ route('admin.seniman.index') }}" class="list-group-item list-group-item-action py-3 {{ request()->routeIs('admin.seniman.*') ? 'active' : '' }}">
+                    <i class="bi bi-people me-2"></i> Seniman
+                </a>
+                
+                <a href="{{ route('admin.kategori.index') }}" class="list-group-item list-group-item-action py-3 {{ request()->routeIs('admin.kategori.*') ? 'active' : '' }}">
+                    <i class="bi bi-tags me-2"></i> Kategori
+                </a>
+                
+                <div class="list-group-item bg-light fw-bold text-uppercase small py-2 text-muted">
+                    Pengaturan
+                </div>
+                
+                <a href="{{ route('admin.slider.index') }}" class="list-group-item list-group-item-action py-3 {{ request()->routeIs('admin.slider.*') ? 'active' : '' }}">
+                    <i class="bi bi-images me-2"></i> Slider
+                </a>
+                
+                <a href="{{ route('admin.profil-portal.index') }}" class="list-group-item list-group-item-action py-3 {{ request()->routeIs('admin.profil-portal.*') ? 'active' : '' }}">
+                    <i class="bi bi-info-circle me-2"></i> Profil Portal
+                </a>
+                
+                <a href="{{ route('admin.kata-sambutan.index') }}" class="list-group-item list-group-item-action py-3 {{ request()->routeIs('admin.kata-sambutan.*') ? 'active' : '' }}">
+                    <i class="bi bi-chat-square-quote me-2"></i> Kata Sambutan
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid px-0">
+        <div class="row g-0">
+            <!-- Sidebar Desktop -->
+            <aside class="col-md-3 col-lg-2 sidebar-desktop d-none d-md-block">
+                <div class="list-group list-group-flush">
+                    <a href="{{ route('admin.dashboard') }}" class="list-group-item py-3 {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                        <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                    </a>
+                    
+                    <div class="list-group-item bg-light fw-bold text-uppercase small py-2 text-muted">
+                        Manajemen Konten
+                    </div>
+                    
+                    <a href="{{ route('admin.karya.index') }}" class="list-group-item py-3 {{ request()->routeIs('admin.karya.*') ? 'active' : '' }}">
+                        <i class="bi bi-palette me-2"></i> Karya Seni
+                    </a>
+                    
+                    <a href="{{ route('admin.seniman.index') }}" class="list-group-item py-3 {{ request()->routeIs('admin.seniman.*') ? 'active' : '' }}">
+                        <i class="bi bi-people me-2"></i> Seniman
+                    </a>
+                    
+                    <a href="{{ route('admin.kategori.index') }}" class="list-group-item py-3 {{ request()->routeIs('admin.kategori.*') ? 'active' : '' }}">
+                        <i class="bi bi-tags me-2"></i> Kategori
+                    </a>
+                    
+                    <div class="list-group-item bg-light fw-bold text-uppercase small py-2 text-muted">
+                        Pengaturan
+                    </div>
+                    
+                    <a href="{{ route('admin.slider.index') }}" class="list-group-item py-3 {{ request()->routeIs('admin.slider.*') ? 'active' : '' }}">
+                        <i class="bi bi-images me-2"></i> Slider
+                    </a>
+                    
+                    <a href="{{ route('admin.profil-portal.index') }}" class="list-group-item py-3 {{ request()->routeIs('admin.profil-portal.*') ? 'active' : '' }}">
+                        <i class="bi bi-info-circle me-2"></i> Profil Portal
+                    </a>
+                    
+                    <a href="{{ route('admin.kata-sambutan.index') }}" class="list-group-item py-3 {{ request()->routeIs('admin.kata-sambutan.*') ? 'active' : '' }}">
+                        <i class="bi bi-chat-square-quote me-2"></i> Kata Sambutan
+                    </a>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="col-md-9 col-lg-10 admin-content p-3 p-md-4">
+                <!-- Flash Messages -->
+                @if(session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+                
+                @if(session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-circle-fill me-2"></i> {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+                
+                @if(session('warning'))
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ session('warning') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+                
+                <!-- Page Title -->
+                <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-4 gap-2">
+                    <h1 class="h4 mb-0">@yield('title', 'Dashboard')</h1>
+                    <span class="text-muted small">{{ now()->format('d F Y') }}</span>
+                </div>
+                
+                <!-- Content -->
+                @yield('content')
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5.3 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
+    <!-- Close Offcanvas on Link Click -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileSidebar = document.getElementById('mobileSidebar');
+            const menuLinks = document.querySelectorAll('#mobileMenu .list-group-item-action');
+            
+            menuLinks.forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    // Get the offcanvas instance and close it
+                    const bsOffcanvas = bootstrap.Offcanvas.getInstance(mobileSidebar);
+                    if (bsOffcanvas) {
+                        bsOffcanvas.hide();
+                    }
+                    // Allow default navigation to proceed
+                });
+            });
         });
     </script>
-@stop
+    
+    @stack('scripts')
+</body>
+</html>
