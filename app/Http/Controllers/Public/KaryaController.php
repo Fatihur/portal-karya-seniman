@@ -12,24 +12,17 @@ class KaryaController extends Controller
     public function index(Request $request)
     {
         $query = KaryaSeni::publik()->with(['user.profilSeniman', 'kategori']);
-        
+
         if ($request->filled('kategori')) {
-            $query->whereHas('kategori', function($q) use ($request) {
+            $query->whereHas('kategori', function ($q) use ($request) {
                 $q->where('slug', $request->kategori);
             });
         }
-        
-        if ($request->filled('q')) {
-            $query->where(function($q) use ($request) {
-                $q->where('judul_karya', 'like', '%'.$request->q.'%')
-                  ->orWhere('deskripsi_singkat', 'like', '%'.$request->q.'%')
-                  ->orWhereHas('user', function($userQuery) use ($request) {
-                      $userQuery->where('nama', 'like', '%'.$request->q.'%');
-                  });
-            });
-        }
-        
-        $karyaList = $query->latest('dipublikasikan_pada')->paginate(12);
+
+        $karyaList = $query
+            ->search($request->q)
+            ->latest('dipublikasikan_pada')
+            ->paginate(12);
         $kategoriList = Kategori::aktif()->orderBy('urutan')->get();
         
         return view('public.karya.index', compact('karyaList', 'kategoriList'));

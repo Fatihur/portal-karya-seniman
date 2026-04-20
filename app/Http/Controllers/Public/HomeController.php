@@ -34,18 +34,13 @@ class HomeController extends Controller
             ->take(6)
             ->get();
         
-        $senimanUnggulan = ProfilSeniman::whereHas('user', function($query) {
-            $query->where('status_akun', 'aktif');
-        })->whereHas('user.karyaSeni', function($query) {
-            $query->where('status_karya', 'dipublikasikan');
-        })
-        ->with('user')
-        ->take(6)
-        ->get();
-        
-        $totalSeniman = ProfilSeniman::whereHas('user', function($query) {
-            $query->where('status_akun', 'aktif');
-        })->count();
+        $senimanUnggulan = ProfilSeniman::publicVisible()
+            ->whereHas('karyaPublik')
+            ->with('user')
+            ->take(6)
+            ->get();
+
+        $totalSeniman = ProfilSeniman::publicVisible()->count();
 
         return view('public.home', compact(
             'sliders',
@@ -75,23 +70,16 @@ class HomeController extends Controller
         $query = $request->get('q');
         
         $karyaResults = KaryaSeni::publik()
-            ->where(function($q) use ($query) {
-                $q->where('judul_karya', 'like', '%'.$query.'%')
-                  ->orWhere('deskripsi_singkat', 'like', '%'.$query.'%')
-                  ->orWhere('deskripsi_lengkap', 'like', '%'.$query.'%');
-            })
+            ->search($query)
             ->with(['user.profilSeniman', 'kategori'])
             ->take(10)
             ->get();
-        
-        $senimanResults = ProfilSeniman::whereHas('user', function($q) use ($query) {
-            $q->where('nama', 'like', '%'.$query.'%')
-              ->where('status_akun', 'aktif');
-        })
-        ->orWhere('nama_panggung', 'like', '%'.$query.'%')
-        ->with('user')
-        ->take(10)
-        ->get();
+
+        $senimanResults = ProfilSeniman::publicVisible()
+            ->search($query)
+            ->with('user')
+            ->take(10)
+            ->get();
         
         return view('public.pencarian', compact('query', 'karyaResults', 'senimanResults'));
     }

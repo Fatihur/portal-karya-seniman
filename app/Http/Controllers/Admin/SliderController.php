@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Admin\SaveSlider;
+use App\Actions\Files\DeleteStoredFiles;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreSliderRequest;
+use App\Http\Requests\Admin\UpdateSliderRequest;
 use App\Models\Slider;
-use Illuminate\Http\Request;
 
 class SliderController extends Controller
 {
@@ -13,63 +16,36 @@ class SliderController extends Controller
         $sliders = Slider::orderBy('urutan')->get();
         return view('admin.slider.index', compact('sliders'));
     }
-    
+
     public function create()
     {
         return view('admin.slider.create');
     }
-    
-    public function store(Request $request)
+
+    public function store(StoreSliderRequest $request, SaveSlider $saveSlider)
     {
-        $validated = $request->validate([
-            'judul' => 'required|string|max:200',
-            'subjudul' => 'nullable|string',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg,webp|max:5120',
-            'tautan' => 'nullable|string|max:255',
-            'teks_tombol' => 'nullable|string|max:100',
-            'urutan' => 'nullable|integer',
-            'status_aktif' => 'boolean',
-        ]);
-        
-        $validated['gambar'] = $request->file('gambar')->store('sliders', 'public');
-        $validated['status_aktif'] = $request->boolean('status_aktif', true);
-        
-        Slider::create($validated);
-        
+        $saveSlider->handle($request->validated());
+
         return redirect()->route('admin.slider.index')->with('success', 'Slider berhasil ditambahkan.');
     }
-    
+
     public function edit(Slider $slider)
     {
         return view('admin.slider.edit', compact('slider'));
     }
-    
-    public function update(Request $request, Slider $slider)
+
+    public function update(UpdateSliderRequest $request, Slider $slider, SaveSlider $saveSlider)
     {
-        $validated = $request->validate([
-            'judul' => 'required|string|max:200',
-            'subjudul' => 'nullable|string',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
-            'tautan' => 'nullable|string|max:255',
-            'teks_tombol' => 'nullable|string|max:100',
-            'urutan' => 'nullable|integer',
-            'status_aktif' => 'boolean',
-        ]);
-        
-        if ($request->hasFile('gambar')) {
-            $validated['gambar'] = $request->file('gambar')->store('sliders', 'public');
-        }
-        
-        $validated['status_aktif'] = $request->boolean('status_aktif', true);
-        
-        $slider->update($validated);
-        
+        $saveSlider->handle($request->validated(), $slider);
+
         return redirect()->route('admin.slider.index')->with('success', 'Slider berhasil diperbarui.');
     }
-    
-    public function destroy(Slider $slider)
+
+    public function destroy(Slider $slider, DeleteStoredFiles $deleteStoredFiles)
     {
+        $deleteStoredFiles->handle($slider->gambar);
         $slider->delete();
+
         return redirect()->route('admin.slider.index')->with('success', 'Slider berhasil dihapus.');
     }
 }

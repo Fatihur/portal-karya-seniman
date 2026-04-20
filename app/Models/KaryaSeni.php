@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\KaryaStatus;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -10,7 +12,7 @@ use Illuminate\Support\Str;
 
 class KaryaSeni extends Model
 {
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'karya_seni';
 
@@ -36,6 +38,7 @@ class KaryaSeni extends Model
     ];
 
     protected $casts = [
+        'status_karya' => KaryaStatus::class,
         'status_aktif' => 'boolean',
         'jumlah_dilihat' => 'integer',
         'diajukan_pada' => 'datetime',
@@ -75,7 +78,8 @@ class KaryaSeni extends Model
 
     public function scopePublik($query)
     {
-        return $query->where('status_karya', 'dipublikasikan')->where('status_aktif', true);
+        return $query->where('status_karya', KaryaStatus::Dipublikasikan->value)
+            ->where('status_aktif', true);
     }
 
     public function scopeMilikSeniman($query, $userId)
@@ -86,6 +90,22 @@ class KaryaSeni extends Model
     public function scopeByStatus($query, $status)
     {
         return $query->where('status_karya', $status);
+    }
+
+    public function scopeSearch($query, ?string $term)
+    {
+        if (! $term) {
+            return $query;
+        }
+
+        return $query->where(function ($q) use ($term) {
+            $q->where('judul_karya', 'like', '%' . $term . '%')
+                ->orWhere('deskripsi_singkat', 'like', '%' . $term . '%')
+                ->orWhere('deskripsi_lengkap', 'like', '%' . $term . '%')
+                ->orWhereHas('user', function ($userQuery) use ($term) {
+                    $userQuery->where('nama', 'like', '%' . $term . '%');
+                });
+        });
     }
 
     protected static function boot()
@@ -109,39 +129,23 @@ class KaryaSeni extends Model
         if ($user->isAdmin()) {
             return true;
         }
-        return $this->user_id === $user->id && in_array($this->status_karya, ['draft', 'perlu_revisi']);
+
+        return $this->user_id === $user->id
+            && $this->status_karya->canBeEditedBySeniman();
     }
 
     public function canBeSubmitted(): bool
     {
-        return in_array($this->status_karya, ['draft', 'perlu_revisi']);
+        return $this->status_karya->canBeSubmittedBySeniman();
     }
 
     public function getStatusBadgeColorAttribute(): string
     {
-        return match($this->status_karya) {
-            'draft' => 'secondary',
-            'diajukan' => 'info',
-            'perlu_revisi' => 'warning',
-            'disetujui' => 'success',
-            'ditolak' => 'danger',
-            'dipublikasikan' => 'primary',
-            'diarsipkan' => 'dark',
-            default => 'secondary',
-        };
+        return $this->status_karya->badgeColor();
     }
 
     public function getStatusLabelAttribute(): string
     {
-        return match($this->status_karya) {
-            'draft' => 'Draft',
-            'diajukan' => 'Diajukan',
-            'perlu_revisi' => 'Perlu Revisi',
-            'disetujui' => 'Disetujui',
-            'ditolak' => 'Ditolak',
-            'dipublikasikan' => 'Dipublikasikan',
-            'diarsipkan' => 'Diarsipkan',
-            default => $this->status_karya,
-        };
+        return $this->status_karya->label();
     }
 }

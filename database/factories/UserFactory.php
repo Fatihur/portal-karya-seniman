@@ -25,12 +25,31 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'nama' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
+            'nomor_hp' => fake()->numerify('0812########'),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            'peran' => 'seniman',
+            'status_akun' => 'aktif',
+            'terakhir_login_pada' => null,
             'remember_token' => Str::random(10),
         ];
+    }
+
+    public function admin(): static
+    {
+        return $this->state(fn () => ['peran' => 'admin']);
+    }
+
+    public function seniman(): static
+    {
+        return $this->state(fn () => ['peran' => 'seniman']);
+    }
+
+    public function nonaktif(): static
+    {
+        return $this->state(fn () => ['status_akun' => 'nonaktif']);
     }
 
     /**

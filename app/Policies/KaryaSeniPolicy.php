@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\KaryaStatus;
 use App\Models\KaryaSeni;
 use App\Models\User;
 
@@ -27,21 +28,26 @@ class KaryaSeniPolicy
         if ($user->isAdmin()) {
             return true;
         }
-        
-        return $karyaSeni->user_id === $user->id && 
-               in_array($karyaSeni->status_karya, ['draft', 'perlu_revisi']);
+
+        return $karyaSeni->user_id === $user->id
+            && $karyaSeni->status_karya->canBeEditedBySeniman();
     }
-    
+
     public function delete(User $user, KaryaSeni $karyaSeni): bool
     {
         if ($user->isAdmin()) {
             return true;
         }
-        
-        return $karyaSeni->user_id === $user->id && 
-               in_array($karyaSeni->status_karya, ['draft']);
+
+        return $karyaSeni->user_id === $user->id
+            && $karyaSeni->status_karya === KaryaStatus::Draft;
     }
-    
+
+    public function review(User $user, KaryaSeni $karyaSeni): bool
+    {
+        return $user->isAdmin() && $karyaSeni->status_karya === KaryaStatus::Diajukan;
+    }
+
     public function restore(User $user, KaryaSeni $karyaSeni): bool
     {
         return $user->isAdmin();
