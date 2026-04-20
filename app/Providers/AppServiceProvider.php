@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 use App\Models\KaryaSeni;
 use App\Policies\KaryaSeniPolicy;
+use App\View\Composers\PublicLayoutComposer;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,12 +25,13 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::policy(KaryaSeni::class, KaryaSeniPolicy::class);
-        
-        // Gates for menu visibility
+
+        View::composer('layouts.public', PublicLayoutComposer::class);
+
         Gate::define('admin-access', function ($user) {
             return $user->isAdmin();
         });
-        
+
         Gate::define('seniman-access', function ($user) {
             return $user->isSeniman();
         });

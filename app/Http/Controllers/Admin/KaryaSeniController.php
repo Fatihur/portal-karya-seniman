@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Karya\ReviewKaryaSubmission;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\SubmitReviewKaryaRequest;
 use App\Models\KaryaSeni;
-use App\Models\ReviewKarya;
 use Illuminate\Http\Request;
 
 class KaryaSeniController extends Controller
@@ -56,42 +57,22 @@ class KaryaSeniController extends Controller
     
     public function review(KaryaSeni $karyaSeni)
     {
+        $this->authorize('review', $karyaSeni);
+
         $karyaSeni->load(['user.profilSeniman', 'kategori', 'mediaKarya']);
-        
-        return view('admin.karya.review', compact('karyaSeni'));
+
+        return view('admin.karya.review', ['karya' => $karyaSeni]);
     }
-    
-    public function submitReview(Request $request, KaryaSeni $karyaSeni)
+
+    public function submitReview(SubmitReviewKaryaRequest $request, KaryaSeni $karyaSeni, ReviewKaryaSubmission $action)
     {
-        $validated = $request->validate([
-            'status' => 'required|in:perlu_revisi,disetujui,ditolak',
-            'catatan_review' => 'required|string',
-        ]);
-        
-        $statusSebelum = $karyaSeni->status_karya;
-        
-        // Update karya status
-        $updateData = ['status_karya' => $validated['status']];
-        
-        if ($validated['status'] === 'disetujui') {
-            $updateData['disetujui_pada'] = now();
-            $updateData['dipublikasikan_pada'] = now();
-            $updateData['status_karya'] = 'dipublikasikan';
-        }
-        
-        $updateData['catatan_admin_terbaru'] = $validated['catatan_review'];
-        $karyaSeni->update($updateData);
-        
-        // Create review record
-        ReviewKarya::create([
-            'karya_seni_id' => $karyaSeni->id,
-            'admin_id' => auth()->id(),
-            'status_sebelum' => $statusSebelum,
-            'status_sesudah' => $updateData['status_karya'],
-            'catatan_review' => $validated['catatan_review'],
-            'ditinjau_pada' => now(),
-        ]);
-        
+        $action->handle(
+            $request->user(),
+            $karyaSeni,
+            $request->validated('status'),
+            $request->validated('catatan_review'),
+        );
+
         return redirect()->route('admin.karya.index')->with('success', 'Review karya berhasil disimpan.');
     }
     

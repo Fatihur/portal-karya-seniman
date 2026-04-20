@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Admin\SaveKategori;
+use App\Actions\Files\DeleteStoredFiles;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreKategoriRequest;
+use App\Http\Requests\Admin\UpdateKategoriRequest;
 use App\Models\Kategori;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class KategoriController extends Controller
 {
@@ -14,79 +16,45 @@ class KategoriController extends Controller
         $kategoriList = Kategori::withCount('karyaSeni')->orderBy('urutan')->get();
         return view('admin.kategori.index', compact('kategoriList'));
     }
-    
+
     public function create()
     {
         return view('admin.kategori.create');
     }
-    
-    public function store(Request $request)
+
+    public function store(StoreKategoriRequest $request, SaveKategori $saveKategori)
     {
-        $validated = $request->validate([
-            'nama_kategori' => 'required|string|max:100|unique:kategori',
-            'slug' => 'nullable|string|max:120|unique:kategori',
-            'deskripsi' => 'nullable|string',
-            'ikon' => 'nullable|string|max:100',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-            'urutan' => 'nullable|integer',
-            'status_aktif' => 'boolean',
-        ]);
-        
-        if (empty($validated['slug'])) {
-            $validated['slug'] = Str::slug($validated['nama_kategori']);
-        }
-        
-        if ($request->hasFile('gambar')) {
-            $validated['gambar'] = $request->file('gambar')->store('kategori', 'public');
-        }
-        
-        $validated['status_aktif'] = $request->boolean('status_aktif', true);
-        
-        Kategori::create($validated);
-        
+        $saveKategori->handle($request->validated());
+
         return redirect()->route('admin.kategori.index')->with('success', 'Kategori berhasil ditambahkan.');
     }
-    
+
     public function show(Kategori $kategori)
     {
         return view('admin.kategori.show', compact('kategori'));
     }
-    
+
     public function edit(Kategori $kategori)
     {
         return view('admin.kategori.edit', compact('kategori'));
     }
-    
-    public function update(Request $request, Kategori $kategori)
+
+    public function update(UpdateKategoriRequest $request, Kategori $kategori, SaveKategori $saveKategori)
     {
-        $validated = $request->validate([
-            'nama_kategori' => 'required|string|max:100|unique:kategori,nama_kategori,' . $kategori->id,
-            'slug' => 'nullable|string|max:120|unique:kategori,slug,' . $kategori->id,
-            'deskripsi' => 'nullable|string',
-            'ikon' => 'nullable|string|max:100',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-            'urutan' => 'nullable|integer',
-            'status_aktif' => 'boolean',
-        ]);
-        
-        if ($request->hasFile('gambar')) {
-            $validated['gambar'] = $request->file('gambar')->store('kategori', 'public');
-        }
-        
-        $validated['status_aktif'] = $request->boolean('status_aktif', true);
-        
-        $kategori->update($validated);
-        
+        $saveKategori->handle($request->validated(), $kategori);
+
         return redirect()->route('admin.kategori.index')->with('success', 'Kategori berhasil diperbarui.');
     }
-    
-    public function destroy(Kategori $kategori)
+
+    public function destroy(Kategori $kategori, DeleteStoredFiles $deleteStoredFiles)
     {
         if ($kategori->karyaSeni()->count() > 0) {
             return redirect()->route('admin.kategori.index')->with('error', 'Kategori tidak dapat dihapus karena masih memiliki karya.');
         }
-        
+
+        $deleteStoredFiles->handle($kategori->gambar);
         $kategori->delete();
+
         return redirect()->route('admin.kategori.index')->with('success', 'Kategori berhasil dihapus.');
     }
 }

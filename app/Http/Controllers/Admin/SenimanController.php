@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\KaryaStatus;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\ReviewKarya;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -40,9 +40,9 @@ class SenimanController extends Controller
         
         $statistik = [
             'total_karya' => $user->karyaSeni()->count(),
-            'dipublikasikan' => $user->karyaSeni()->where('status_karya', 'dipublikasikan')->count(),
-            'menunggu_review' => $user->karyaSeni()->where('status_karya', 'diajukan')->count(),
-            'perlu_revisi' => $user->karyaSeni()->where('status_karya', 'perlu_revisi')->count(),
+            'dipublikasikan' => $user->karyaSeni()->where('status_karya', KaryaStatus::Dipublikasikan->value)->count(),
+            'menunggu_review' => $user->karyaSeni()->where('status_karya', KaryaStatus::Diajukan->value)->count(),
+            'perlu_revisi' => $user->karyaSeni()->where('status_karya', KaryaStatus::PerluRevisi->value)->count(),
         ];
         
         return view('admin.seniman.show', compact('user', 'statistik'));

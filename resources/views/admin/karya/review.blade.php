@@ -86,25 +86,24 @@
                     </div>
                     @endif
                     
-                    <form action="{{ route('admin.karya.review.submit', $karya) }}" method="POST">
+                    <form action="{{ route('admin.karya.submit-review', $karya) }}" method="POST">
                         @csrf
-                        @method('PUT')
-                        
+
                         <div class="mb-3">
                             <label class="form-label fw-bold">Status Review</label>
                             <select name="status" class="form-select" required>
                                 <option value="">Pilih Status...</option>
-                                <option value="dipublikasikan">Setuju - Dipublikasikan</option>
+                                <option value="disetujui">Setuju - Dipublikasikan</option>
                                 <option value="perlu_revisi">Perlu Revisi</option>
                                 <option value="ditolak">Tolak</option>
                             </select>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label class="form-label">Catatan untuk Seniman</label>
-                            <textarea name="catatan" class="form-control" rows="4" placeholder="Berikan catatan atau saran perbaikan..."></textarea>
+                            <textarea name="catatan_review" class="form-control" rows="4" placeholder="Berikan catatan atau saran perbaikan..." required></textarea>
                         </div>
-                        
+
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-check-circle me-2"></i> Submit Review

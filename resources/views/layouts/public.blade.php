@@ -74,10 +74,6 @@
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body p-0">
-            @php
-                $kategoriList = App\Models\Kategori::aktif()->orderBy('urutan')->get();
-            @endphp
-            
             <!-- Main Menu -->
             <div class="list-group list-group-flush rounded-0">
                 <a href="{{ route('home') }}" class="list-group-item list-group-item-action py-3 {{ request()->routeIs('home') ? 'active bg-danger border-danger' : '' }}">
@@ -99,7 +95,7 @@
                     <div id="mobileCategoryCollapse" class="accordion-collapse collapse {{ request()->is('kategori*') ? 'show' : '' }}" data-bs-parent="#mobileCategoryAccordion">
                         <div class="accordion-body p-0">
                             <div class="list-group list-group-flush">
-                                @foreach($kategoriList as $kat)
+                                @foreach($layoutKategoriList as $kat)
                                 <a href="{{ route('kategori.show', $kat->slug) }}" class="list-group-item list-group-item-action ps-4 py-2 {{ request()->is('kategori/'.$kat->slug) ? 'active bg-danger-subtle text-danger' : '' }}">
                                     {{ $kat->nama_kategori }}
                                 </a>
@@ -162,7 +158,7 @@
                         <div id="desktopCategoryCollapse" class="accordion-collapse collapse {{ request()->is('kategori*') ? 'show' : '' }}" data-bs-parent="#desktopCategoryAccordion">
                             <div class="accordion-body p-0">
                                 <div class="list-group list-group-flush">
-                                    @foreach($kategoriList as $kat)
+                                    @foreach($layoutKategoriList as $kat)
                                     <a href="{{ route('kategori.show', $kat->slug) }}" class="list-group-item list-group-item-action ps-4 {{ request()->is('kategori/'.$kat->slug) ? 'active bg-danger-subtle text-danger' : '' }}">
                                         {{ $kat->nama_kategori }}
                                     </a>
