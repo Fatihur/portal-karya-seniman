@@ -12,7 +12,8 @@ class KaryaSeniController extends Controller
 {
     public function index(Request $request)
     {
-        $query = KaryaSeni::with(['user.profilSeniman', 'kategori']);
+        $query = KaryaSeni::with(['user.profilSeniman', 'kategori'])
+            ->where('status_karya', '!=', 'draft');
         
         if ($request->filled('status')) {
             $query->where('status_karya', $request->status);
@@ -36,8 +37,7 @@ class KaryaSeniController extends Controller
         
         $karyaList = $query->latest()->paginate(15);
         $statusCounts = [
-            'total' => KaryaSeni::count(),
-            'draft' => KaryaSeni::where('status_karya', 'draft')->count(),
+            'total' => KaryaSeni::where('status_karya', '!=', 'draft')->count(),
             'diajukan' => KaryaSeni::where('status_karya', 'diajukan')->count(),
             'perlu_revisi' => KaryaSeni::where('status_karya', 'perlu_revisi')->count(),
             'disetujui' => KaryaSeni::where('status_karya', 'disetujui')->count(),
@@ -50,9 +50,11 @@ class KaryaSeniController extends Controller
     
     public function show(KaryaSeni $karyaSeni)
     {
+        $this->authorize('view', $karyaSeni);
+        
         $karyaSeni->load(['user.profilSeniman', 'kategori', 'mediaKarya', 'reviewKarya.admin']);
         
-        return view('admin.karya.show', compact('karyaSeni'));
+        return view('admin.karya.show', ['karya' => $karyaSeni]);
     }
     
     public function review(KaryaSeni $karyaSeni)
@@ -66,6 +68,8 @@ class KaryaSeniController extends Controller
 
     public function submitReview(SubmitReviewKaryaRequest $request, KaryaSeni $karyaSeni, ReviewKaryaSubmission $action)
     {
+        $this->authorize('review', $karyaSeni);
+
         $action->handle(
             $request->user(),
             $karyaSeni,
@@ -78,6 +82,8 @@ class KaryaSeniController extends Controller
     
     public function destroy(KaryaSeni $karyaSeni)
     {
+        $this->authorize('delete', $karyaSeni);
+        
         $karyaSeni->delete();
         
         return redirect()->route('admin.karya.index')->with('success', 'Karya berhasil dihapus.');

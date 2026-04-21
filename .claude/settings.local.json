@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__plugin_episodic-memory_episodic-memory__search",
+      "Bash(rtk ls:*)",
+      "Bash(rtk git:*)",
+      "Bash(rtk mkdir:*)",
+      "Bash(rtk composer:*)",
+      "Bash(rtk npm:*)",
+      "Bash(rtk php:*)",
+      "Bash(gh pr create --base main --head refactor/portal-architecture --title 'refactor: centralize portal workflow logic' --body ':*)",
+      "Bash(rtk gh:*)",
+      "Bash(rtk gh pr create --base main --head refactor/portal-architecture --title 'refactor: centralize portal workflow logic' --body ':*)",
+      "Bash(rtk:*)",
+      "mcp__plugin_superpowers-chrome_chrome__use_browser"
+    ]
+  }
+}

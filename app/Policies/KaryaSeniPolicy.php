@@ -15,6 +15,9 @@ class KaryaSeniPolicy
     
     public function view(User $user, KaryaSeni $karyaSeni): bool
     {
+        if ($user->isAdmin() && $karyaSeni->status_karya === KaryaStatus::Draft) {
+            return false;
+        }
         return $user->isAdmin() || $karyaSeni->user_id === $user->id;
     }
     
@@ -35,6 +38,10 @@ class KaryaSeniPolicy
 
     public function delete(User $user, KaryaSeni $karyaSeni): bool
     {
+        if ($user->isAdmin() && $karyaSeni->status_karya === KaryaStatus::Draft) {
+            return false;
+        }
+        
         if ($user->isAdmin()) {
             return true;
         }

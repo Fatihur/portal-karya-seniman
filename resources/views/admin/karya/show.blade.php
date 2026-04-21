@@ -2,50 +2,52 @@
 
 @section('title', 'Detail Karya')
 
-@section('content_header')
-    <h1>Detail Karya</h1>
-    <a href="{{ route('admin.karya.index') }}" class="btn btn-secondary btn-sm">
-        <i class="fas fa-arrow-left mr-1"></i> Kembali
-    </a>
-@stop
-
 @section('content')
-    <div class="row">
-        <div class="col-md-8">
-            <div class="card">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h4 m-0">Detail Karya</h1>
+        <a href="{{ route('admin.karya.index') }}" class="btn btn-secondary btn-sm">
+            <i class="bi bi-arrow-left me-1"></i> Kembali
+        </a>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-lg-8">
+            <div class="card mb-3">
                 <div class="card-body">
-                    <img src="{{ $karya->thumbnail_url }}" class="img-fluid mb-3" style="max-height: 400px; width: 100%; object-fit: contain;" alt="{{ $karya->judul_karya }}">
+                    <img src="{{ $karya->thumbnail_url }}" class="img-fluid rounded mb-3 w-100" style="max-height: 400px; object-fit: contain; background: #f8f9fa;" alt="{{ $karya->judul_karya }}">
                     
-                    <h3>{{ $karya->judul_karya }}</h3>
-                    <span class="badge badge-{{ $karya->status_badge_color }} mb-3">{{ $karya->status_label }}</span>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <h3 class="mb-0">{{ $karya->judul_karya }}</h3>
+                        <span class="badge bg-{{ $karya->status_badge_color }}">{{ $karya->status_label }}</span>
+                    </div>
                     
-                    <h5>Deskripsi Singkat</h5>
-                    <p>{{ $karya->deskripsi_singkat }}</p>
+                    <h5 class="mt-4">Deskripsi Singkat</h5>
+                    <p class="text-muted">{{ $karya->deskripsi_singkat }}</p>
                     
                     @if($karya->deskripsi_lengkap)
-                    <h5>Deskripsi Lengkap</h5>
+                    <h5 class="mt-4">Deskripsi Lengkap</h5>
                     <p>{!! nl2br(e($karya->deskripsi_lengkap)) !!}</p>
                     @endif
                     
-                    <div class="row mt-4">
+                    <div class="row g-3 mt-3 bg-light p-3 rounded">
                         @if($karya->tahun_karya)
                         <div class="col-md-6">
-                            <strong>Tahun:</strong> {{ $karya->tahun_karya }}
+                            <strong><i class="bi bi-calendar me-2 text-muted"></i>Tahun:</strong> {{ $karya->tahun_karya }}
                         </div>
                         @endif
                         @if($karya->media_karya)
                         <div class="col-md-6">
-                            <strong>Media:</strong> {{ $karya->media_karya }}
+                            <strong><i class="bi bi-palette me-2 text-muted"></i>Media:</strong> {{ $karya->media_karya }}
                         </div>
                         @endif
                         @if($karya->dimensi)
                         <div class="col-md-6">
-                            <strong>Dimensi:</strong> {{ $karya->dimensi }}
+                            <strong><i class="bi bi-arrows-fullscreen me-2 text-muted"></i>Dimensi:</strong> {{ $karya->dimensi }}
                         </div>
                         @endif
                         @if($karya->lokasi_asal)
                         <div class="col-md-6">
-                            <strong>Lokasi:</strong> {{ $karya->lokasi_asal }}
+                            <strong><i class="bi bi-geo-alt me-2 text-muted"></i>Lokasi:</strong> {{ $karya->lokasi_asal }}
                         </div>
                         @endif
                     </div>
@@ -54,14 +56,14 @@
             
             @if($karya->mediaKarya->count() > 0)
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Galeri Media</h3>
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-images me-2"></i>Galeri Media</h5>
                 </div>
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row g-2">
                         @foreach($karya->mediaKarya as $media)
-                        <div class="col-md-3">
-                            <img src="{{ $media->url }}" class="img-thumbnail" style="width: 100%; height: 150px; object-fit: cover;" alt="Media">
+                        <div class="col-6 col-md-3">
+                            <img src="{{ $media->url }}" class="img-thumbnail w-100" style="height: 150px; object-fit: cover;" alt="Media">
                         </div>
                         @endforeach
                     </div>
@@ -70,43 +72,55 @@
             @endif
         </div>
         
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Informasi Karya</h3>
+        <div class="col-lg-4">
+            <div class="card mb-3">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Informasi Karya</h5>
                 </div>
                 <div class="card-body">
-                    <strong>Seniman:</strong>
-                    <p class="text-muted">{{ $karya->user?->nama }}</p>
+                    <div class="mb-3">
+                        <small class="text-muted d-block">Seniman:</small>
+                        <strong>{{ $karya->user?->nama }}</strong>
+                    </div>
                     
-                    <strong>Kategori:</strong>
-                    <p class="text-muted">{{ $karya->kategori?->nama_kategori }}</p>
+                    <div class="mb-3">
+                        <small class="text-muted d-block">Kategori:</small>
+                        <strong>{{ $karya->kategori?->nama_kategori }}</strong>
+                    </div>
                     
-                    <strong>Tanggal Dibuat:</strong>
-                    <p class="text-muted">{{ $karya->created_at->format('d/m/Y H:i') }}</p>
+                    <div class="mb-3">
+                        <small class="text-muted d-block">Tanggal Dibuat:</small>
+                        <strong>{{ $karya->created_at->format('d F Y, H:i') }}</strong>
+                    </div>
                     
                     @if($karya->diajukan_pada)
-                    <strong>Tanggal Diajukan:</strong>
-                    <p class="text-muted">{{ $karya->diajukan_pada->format('d/m/Y H:i') }}</p>
+                    <div class="mb-3">
+                        <small class="text-muted d-block">Tanggal Diajukan:</small>
+                        <strong>{{ $karya->diajukan_pada->format('d F Y, H:i') }}</strong>
+                    </div>
                     @endif
                     
                     @if($karya->disetujui_pada)
-                    <strong>Tanggal Disetujui:</strong>
-                    <p class="text-muted">{{ $karya->disetujui_pada->format('d/m/Y H:i') }}</p>
+                    <div class="mb-3">
+                        <small class="text-muted d-block">Tanggal Disetujui:</small>
+                        <strong>{{ $karya->disetujui_pada->format('d F Y, H:i') }}</strong>
+                    </div>
                     @endif
                     
                     <hr>
                     
-                    @if($karya->status_karya == 'diajukan')
-                    <a href="{{ route('admin.karya.review', $karya) }}" class="btn btn-primary btn-block">
-                        <i class="fas fa-gavel mr-1"></i> Review Karya
-                    </a>
+                    @if($karya->status_karya->value == 'diajukan')
+                    <div class="d-grid mb-3">
+                        <a href="{{ route('admin.karya.review', $karya) }}" class="btn btn-primary">
+                            <i class="bi bi-journal-check me-1"></i> Review Karya
+                        </a>
+                    </div>
                     @endif
                     
                     @if($karya->catatan_admin_terbaru)
-                    <div class="alert alert-info mt-3">
-                        <strong>Catatan Terakhir:</strong><br>
-                        {{ $karya->catatan_admin_terbaru }}
+                    <div class="alert alert-info mb-0">
+                        <h6 class="alert-heading"><i class="bi bi-chat-left-text me-1"></i> Catatan Terakhir:</h6>
+                        <small>{{ $karya->catatan_admin_terbaru }}</small>
                     </div>
                     @endif
                 </div>
@@ -114,16 +128,27 @@
             
             @if($karya->reviewKarya->count() > 0)
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Riwayat Review</h3>
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Riwayat Review</h5>
                 </div>
                 <div class="card-body p-0">
                     <ul class="list-group list-group-flush">
-                        @foreach($karya->reviewKarya as $review)
+                        @foreach($karya->reviewKarya->sortByDesc('created_at') as $review)
                         <li class="list-group-item">
-                            <small class="text-muted">{{ $review->ditinjau_pada?->format('d/m/Y H:i') }}</small><br>
-                            <strong>{{ $review->status_sebelum }} → {{ $review->status_sesudah }}</strong><br>
-                            <small>{{ $review->catatan_review }}</small>
+                            <div class="d-flex w-100 justify-content-between mb-1">
+                                <small class="text-muted"><i class="bi bi-calendar me-1"></i> {{ $review->ditinjau_pada?->format('d/m/y H:i') }}</small>
+                            </div>
+                            <p class="mb-1">
+                                <span class="badge bg-secondary">{{ \App\Enums\KaryaStatus::tryFrom($review->status_sebelum)?->label() ?? $review->status_sebelum }}</span> 
+                                <i class="bi bi-arrow-right text-muted mx-1"></i> 
+                                @php
+                                    $newStatus = \App\Enums\KaryaStatus::tryFrom($review->status_sesudah);
+                                @endphp
+                                <span class="badge bg-{{ $newStatus?->badgeColor() ?? 'info' }}">{{ $newStatus?->label() ?? $review->status_sesudah }}</span>
+                            </p>
+                            @if($review->catatan_review)
+                            <small class="d-block mt-2 text-muted border-start border-2 border-info ps-2">{{ $review->catatan_review }}</small>
+                            @endif
                         </li>
                         @endforeach
                     </ul>

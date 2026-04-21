@@ -79,10 +79,10 @@
                     <h6 class="mb-0">Form Review</h6>
                 </div>
                 <div class="card-body">
-                    @if($karya->catatan_reviewer)
+                    @if($karya->catatan_admin_terbaru)
                     <div class="alert alert-info mb-3">
-                        <strong>Catatan Reviewer:</strong><br>
-                        {{ $karya->catatan_reviewer }}
+                        <strong>Catatan Reviewer Sebelumnya:</strong><br>
+                        {{ $karya->catatan_admin_terbaru }}
                     </div>
                     @endif
                     

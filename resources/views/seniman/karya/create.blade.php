@@ -1,24 +1,22 @@
-@extends('layouts.admin')
+@extends('layouts.seniman')
 
 @section('title', 'Tambah Karya Baru')
 
-@section('content_header')
-    <div class="d-flex justify-content-between align-items-center">
-        <h1 class="m-0">Tambah Karya Baru</h1>
+@section('content')
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-4 gap-2">
+        <h1 class="h4 mb-0">Tambah Karya Baru</h1>
         <a href="{{ route('seniman.karya.index') }}" class="btn btn-secondary btn-sm">
-            <i class="fas fa-arrow-left mr-1"></i> Kembali
+            <i class="bi bi-arrow-left me-1"></i> Kembali
         </a>
     </div>
-@stop
 
-@section('content')
-    <div class="card">
+    <div class="card border-0 shadow-sm">
         <div class="card-body">
             <form action="{{ route('seniman.karya.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 
-                <div class="form-group">
-                    <label for="judul_karya">Judul Karya *</label>
+                <div class="mb-3">
+                    <label for="judul_karya" class="form-label">Judul Karya *</label>
                     <input type="text" class="form-control @error('judul_karya') is-invalid @enderror" 
                            id="judul_karya" name="judul_karya" value="{{ old('judul_karya') }}" required>
                     @error('judul_karya')
@@ -26,9 +24,9 @@
                     @enderror
                 </div>
                 
-                <div class="form-group">
-                    <label for="kategori_id">Kategori *</label>
-                    <select class="form-control @error('kategori_id') is-invalid @enderror" 
+                <div class="mb-3">
+                    <label for="kategori_id" class="form-label">Kategori *</label>
+                    <select class="form-select @error('kategori_id') is-invalid @enderror" 
                             id="kategori_id" name="kategori_id" required>
                         <option value="">Pilih Kategori</option>
                         @foreach($kategoriList as $kategori)
@@ -42,21 +40,21 @@
                     @enderror
                 </div>
                 
-                <div class="form-group">
-                    <label for="deskripsi_singkat">Deskripsi Singkat *</label>
+                <div class="mb-3">
+                    <label for="deskripsi_singkat" class="form-label">Deskripsi Singkat *</label>
                     <textarea class="form-control @error('deskripsi_singkat') is-invalid @enderror" 
                               id="deskripsi_singkat" name="deskripsi_singkat" rows="2" required>{{ old('deskripsi_singkat') }}</textarea>
-                    <small class="form-text text-muted">Ringkasan singkat tentang karya Anda</small>
+                    <div class="form-text text-muted">Ringkasan singkat tentang karya Anda</div>
                     @error('deskripsi_singkat')
                     <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 
-                <div class="form-group">
-                    <label for="deskripsi_lengkap">Deskripsi Lengkap</label>
+                <div class="mb-3">
+                    <label for="deskripsi_lengkap" class="form-label">Deskripsi Lengkap</label>
                     <textarea class="form-control @error('deskripsi_lengkap') is-invalid @enderror" 
                               id="deskripsi_lengkap" name="deskripsi_lengkap" rows="5">{{ old('deskripsi_lengkap') }}</textarea>
-                    <small class="form-text text-muted">Cerita lengkap, inspirasi, atau informasi detail tentang karya</small>
+                    <div class="form-text text-muted">Cerita lengkap, inspirasi, atau informasi detail tentang karya</div>
                     @error('deskripsi_lengkap')
                     <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -64,8 +62,8 @@
                 
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="tahun_karya">Tahun Pembuatan</label>
+                        <div class="mb-3">
+                            <label for="tahun_karya" class="form-label">Tahun Pembuatan</label>
                             <input type="text" class="form-control @error('tahun_karya') is-invalid @enderror" 
                                    id="tahun_karya" name="tahun_karya" value="{{ old('tahun_karya') }}" placeholder="Contoh: 2023">
                             @error('tahun_karya')
@@ -74,8 +72,8 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="media_karya">Media/Bahan</label>
+                        <div class="mb-3">
+                            <label for="media_karya" class="form-label">Media/Bahan</label>
                             <input type="text" class="form-control @error('media_karya') is-invalid @enderror" 
                                    id="media_karya" name="media_karya" value="{{ old('media_karya') }}" placeholder="Contoh: Kayu, Kanvas, Batu">
                             @error('media_karya')
@@ -84,8 +82,8 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="dimensi">Dimensi/Ukuran</label>
+                        <div class="mb-3">
+                            <label for="dimensi" class="form-label">Dimensi/Ukuran</label>
                             <input type="text" class="form-control @error('dimensi') is-invalid @enderror" 
                                    id="dimensi" name="dimensi" value="{{ old('dimensi') }}" placeholder="Contoh: 100cm x 80cm">
                             @error('dimensi')
@@ -95,8 +93,8 @@
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="lokasi_asal">Lokasi Asal</label>
+                <div class="mb-3">
+                    <label for="lokasi_asal" class="form-label">Lokasi Asal</label>
                     <input type="text" class="form-control @error('lokasi_asal') is-invalid @enderror" 
                            id="lokasi_asal" name="lokasi_asal" value="{{ old('lokasi_asal') }}" placeholder="Contoh: Desa Senggigi, Kec. Batu Lanteh">
                     @error('lokasi_asal')
@@ -104,30 +102,30 @@
                     @enderror
                 </div>
                 
-                <div class="form-group">
-                    <label for="thumbnail">Foto Utama/Thumbnail *</label>
-                    <input type="file" class="form-control-file @error('thumbnail') is-invalid @enderror" 
+                <div class="mb-3">
+                    <label for="thumbnail" class="form-label">Foto Utama/Thumbnail *</label>
+                    <input type="file" class="form-control @error('thumbnail') is-invalid @enderror" 
                            id="thumbnail" name="thumbnail" accept="image/*" required>
-                    <small class="form-text text-muted">Format: JPG, PNG, WEBP. Ukuran maksimal 5MB</small>
+                    <div class="form-text text-muted">Format: JPG, PNG, WEBP. Ukuran maksimal 5MB</div>
                     @error('thumbnail')
                     <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 
-                <div class="form-group">
-                    <label for="file_media">Foto Tambahan (Opsional)</label>
-                    <input type="file" class="form-control-file @error('file_media.*') is-invalid @enderror" 
+                <div class="mb-3">
+                    <label for="file_media" class="form-label">Foto Tambahan (Opsional)</label>
+                    <input type="file" class="form-control @error('file_media.*') is-invalid @enderror" 
                            id="file_media" name="file_media[]" accept="image/*" multiple>
-                    <small class="form-text text-muted">Dapat memilih lebih dari 1 foto. Maksimal 10MB per file</small>
+                    <div class="form-text text-muted">Dapat memilih lebih dari 1 foto. Maksimal 10MB per file</div>
                     @error('file_media.*')
                     <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 
                 <hr>
-                <div class="d-flex justify-content-between">
-                    <button type="submit" class="btn btn-primary">Simpan sebagai Draft</button>
-                    <small class="text-muted">Karya akan disimpan sebagai draft dan dapat diajukan untuk review setelah disimpan.</small>
+                <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
+                    <div class="form-text text-muted mb-0">Karya akan disimpan sebagai draft dan dapat diajukan untuk review setelah disimpan.</div>
+                    <button type="submit" class="btn btn-primary w-100 w-sm-auto"><i class="bi bi-save me-1"></i> Simpan sebagai Draft</button>
                 </div>
             </form>
         </div>

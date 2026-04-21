@@ -146,17 +146,7 @@
                                     </td>
                                     <td>{{ $karya->kategori?->nama_kategori ?? '-' }}</td>
                                     <td>
-                                        @php
-                                            $badgeClass = match($karya->status_karya) {
-                                                'dipublikasikan' => 'bg-success',
-                                                'diajukan' => 'bg-warning text-dark',
-                                                'perlu_revisi' => 'bg-secondary',
-                                                'ditolak' => 'bg-danger',
-                                                'draft' => 'bg-info',
-                                                default => 'bg-light text-dark'
-                                            };
-                                        @endphp
-                                        <span class="badge {{ $badgeClass }} small">{{ $karya->status_label }}</span>
+                                        <span class="badge bg-{{ $karya->status_badge_color }} small">{{ $karya->status_label }}</span>
                                     </td>
                                     <td class="small">{{ $karya->created_at->format('d/m/Y') }}</td>
                                 </tr>

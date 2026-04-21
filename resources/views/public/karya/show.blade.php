@@ -29,7 +29,7 @@
 @section('content')
 <div class="row">
     <!-- Main Content -->
-    <div class="col-lg-8">
+    <div class="col-lg-12">
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb" class="mb-3">
             <ol class="breadcrumb">
@@ -40,8 +40,10 @@
         </nav>
         
         <!-- Karya Image -->
-        <div class="content-card mb-4">
-            <img src="{{ $karya->thumbnail_url }}" class="karya-detail-img" alt="{{ $karya->judul_karya }}">
+        <div class="content-card mb-4 text-center bg-light rounded">
+            <a data-fslightbox="gallery" href="{{ $karya->thumbnail_url }}">
+                <img src="{{ $karya->thumbnail_url }}" class="karya-detail-img rounded" alt="{{ $karya->judul_karya }}">
+            </a>
         </div>
         
         <!-- Gallery -->
@@ -50,8 +52,10 @@
             <h5>Galeri</h5>
             <div class="row g-2">
                 @foreach($karya->mediaKarya as $media)
-                <div class="col-3">
-                    <img src="{{ $media->url }}" class="gallery-thumbnail w-100 rounded" alt="Gallery">
+                <div class="col-4 col-md-3 col-lg-2">
+                    <a data-fslightbox="gallery" href="{{ $media->url }}">
+                        <img src="{{ $media->url }}" class="gallery-thumbnail w-100 rounded" alt="Gallery">
+                    </a>
                 </div>
                 @endforeach
             </div>
@@ -124,9 +128,9 @@
                 @foreach($karyaTerkait as $terkait)
                 <div class="col-md-4">
                     <a href="{{ route('karya.show', $terkait->slug) }}" class="text-decoration-none">
-                        <div class="content-card">
-                            <img src="{{ $terkait->thumbnail_url }}" class="card-img w-100" alt="{{ $terkait->judul_karya }}">
-                            <div class="card-body">
+                        <div class="content-card h-100">
+                            <img src="{{ $terkait->thumbnail_url }}" class="card-img w-100" style="height: 150px; object-fit: cover;" alt="{{ $terkait->judul_karya }}">
+                            <div class="card-body p-2">
                                 <h6 class="card-title text-truncate">{{ $terkait->judul_karya }}</h6>
                                 <small class="text-muted">{{ $terkait->nama_seniman }}</small>
                             </div>
@@ -138,51 +142,9 @@
         </div>
         @endif
     </div>
-    
-    <!-- Sidebar -->
-    <div class="col-lg-4">
-        <!-- Seniman Info -->
-        <div class="seniman-card mb-4">
-            <h5 class="mb-3">Seniman</h5>
-            <div class="d-flex align-items-center mb-3">
-                @if($karya->user?->profilSeniman?->foto_profil)
-                <img src="{{ asset('storage/'.$karya->user->profilSeniman->foto_profil) }}" 
-                     class="rounded-circle me-3" 
-                     style="width: 60px; height: 60px; object-fit: cover;"
-                     alt="{{ $karya->nama_seniman }}">
-                @else
-                <div class="rounded-circle me-3 bg-secondary d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                    <i class="bi bi-person-fill fs-3 text-white"></i>
-                </div>
-                @endif
-                <div>
-                    <h6 class="mb-0">{{ $karya->nama_seniman }}</h6>
-                    <small class="text-muted">{{ $karya->user?->profilSeniman?->bidang_seni_utama }}</small>
-                </div>
-            </div>
-            <a href="{{ route('seniman.show', $karya->user_id) }}" class="btn btn-outline-danger btn-sm w-100">
-                Lihat Profil Seniman
-            </a>
-        </div>
-        
-        <!-- Share -->
-        <div class="content-card p-3">
-            <h6>Bagikan Karya</h6>
-            <div class="d-flex gap-2">
-                <a href="https://facebook.com/sharer/sharer.php?u={{ urlencode(request()->url()) }}" 
-                   target="_blank" class="btn btn-primary btn-sm">
-                    <i class="bi bi-facebook"></i>
-                </a>
-                <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->url()) }}" 
-                   target="_blank" class="btn btn-info btn-sm text-white">
-                    <i class="bi bi-twitter"></i>
-                </a>
-                <a href="https://wa.me/?text={{ urlencode($karya->judul_karya . ' - ' . request()->url()) }}" 
-                   target="_blank" class="btn btn-success btn-sm">
-                    <i class="bi bi-whatsapp"></i>
-                </a>
-            </div>
-        </div>
-    </div>
 </div>
 @endsection
+
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.4.1/index.min.js"></script>
+@endpush

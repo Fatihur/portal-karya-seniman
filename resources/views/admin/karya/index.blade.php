@@ -84,22 +84,6 @@
                 </div>
             </a>
         </div>
-        
-        <div class="col-lg-2 col-md-4 col-6">
-            <a href="{{ route('admin.karya.index', ['status' => 'draft']) }}" class="text-decoration-none">
-                <div class="card {{ request('status') == 'draft' ? 'border-info' : '' }}">
-                    <div class="card-body p-3 d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                            <i class="bi bi-file-earmark fs-2 text-info"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                            <h6 class="text-muted mb-0">Draft</h6>
-                            <h5 class="mb-0">{{ $statusCounts['draft'] }}</h5>
-                        </div>
-                    </div>
-                </div>
-            </a>
-        </div>
     </div>
 
     <!-- Main Table Card -->
@@ -152,25 +136,7 @@
                             <td class="d-none d-md-table-cell">{{ $karya->user?->nama ?? '-' }}</td>
                             <td class="d-none d-lg-table-cell">{{ $karya->kategori?->nama_kategori ?? '-' }}</td>
                             <td>
-                                @php
-                                    $badgeClass = match($karya->status_karya) {
-                                        'dipublikasikan' => 'bg-success',
-                                        'diajukan' => 'bg-warning text-dark',
-                                        'perlu_revisi' => 'bg-secondary',
-                                        'ditolak' => 'bg-danger',
-                                        'draft' => 'bg-info',
-                                        default => 'bg-light text-dark'
-                                    };
-                                    $statusLabel = match($karya->status_karya) {
-                                        'dipublikasikan' => 'Dipublikasikan',
-                                        'diajukan' => 'Diajukan',
-                                        'perlu_revisi' => 'Perlu Revisi',
-                                        'ditolak' => 'Ditolak',
-                                        'draft' => 'Draft',
-                                        default => $karya->status_karya
-                                    };
-                                @endphp
-                                <span class="badge {{ $badgeClass }} small">{{ $statusLabel }}</span>
+                                <span class="badge bg-{{ $karya->status_badge_color }} small">{{ $karya->status_label }}</span>
                             </td>
                             <td class="d-none d-sm-table-cell small">{{ $karya->diajukan_pada?->format('d/m/Y') ?? '-' }}</td>
                             <td>
@@ -178,7 +144,7 @@
                                     <a href="{{ route('admin.karya.show', $karya) }}" class="btn btn-outline-info" title="Detail">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    @if($karya->status_karya == 'diajukan')
+                                    @if($karya->status_karya->value == 'diajukan')
                                     <a href="{{ route('admin.karya.review', $karya) }}" class="btn btn-outline-primary" title="Review">
                                         <i class="bi bi-journal-check"></i>
                                     </a>

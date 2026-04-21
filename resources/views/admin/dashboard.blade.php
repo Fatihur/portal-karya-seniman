@@ -164,16 +164,7 @@
                                 <tr>
                                     <td>{{ Str::limit($karya->judul_karya, 30) }}</td>
                                     <td>
-                                        @php
-                                            $badgeClass = match($karya->status) {
-                                                'dipublikasikan' => 'bg-success',
-                                                'diajukan' => 'bg-warning text-dark',
-                                                'direvisi' => 'bg-secondary',
-                                                'ditolak' => 'bg-danger',
-                                                default => 'bg-light text-dark'
-                                            };
-                                        @endphp
-                                        <span class="badge {{ $badgeClass }}">{{ $karya->status_label }}</span>
+                                        <span class="badge bg-{{ $karya->status_badge_color }}">{{ $karya->status_label }}</span>
                                     </td>
                                     <td>{{ $karya->created_at->format('d/m/Y') }}</td>
                                 </tr>

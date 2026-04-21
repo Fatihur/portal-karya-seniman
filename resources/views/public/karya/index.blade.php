@@ -4,9 +4,8 @@
 
 @section('content')
 <section class="section-modern">
-    <div class="container">
-        <div class="mb-4">
-            <h2 class="section-header" style="text-align: left;">
+    <div class="mb-4">
+        <h2 class="section-header" style="text-align: left;">
                 <span style="font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--sumbawa-dark);">Daftar Karya Seni</span>
             </h2>
             <p class="text-muted">Jelajahi karya-karya seni dari para seniman Sumbawa Besar</p>
@@ -40,25 +39,25 @@
         <div class="row g-3">
             @forelse($karyaList as $karya)
             <div class="col-6 col-md-4 col-lg-3">
-                <div class="modern-card h-100">
-                    <div class="card-img-wrapper" style="height: 180px;">
+                <div class="card shadow-sm h-100 border-0">
+                    <div class="card-img-top" style="height: 180px; overflow: hidden; position: relative;">
                         @if($karya->thumbnail_url)
-                        <img src="{{ $karya->thumbnail_url }}" alt="{{ $karya->judul_karya }}">
+                        <img src="{{ $karya->thumbnail_url }}" alt="{{ $karya->judul_karya }}" class="w-100 h-100" style="object-fit: cover;">
                         @else
                         <div class="w-100 h-100 bg-secondary d-flex align-items-center justify-content-center">
                             <i class="bi bi-image fs-1 text-white"></i>
                         </div>
                         @endif
                     </div>
-                    <div class="card-body" style="padding: 15px;">
-                        <span class="card-category" style="font-size: 0.7rem; padding: 3px 10px;">{{ $karya->kategori?->nama_kategori }}</span>
-                        <h5 class="card-title-modern" style="font-size: 1rem;">{{ Str::limit($karya->judul_karya, 30) }}</h5>
-                        <p class="text-muted small mb-2 d-none d-sm-block" style="line-height: 1.5; font-size: 0.8rem;">{{ Str::limit($karya->deskripsi_singkat, 50) }}</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <small class="text-muted" style="font-size: 0.75rem;">
+                    <div class="card-body d-flex flex-column" style="padding: 15px;">
+                        <span class="badge bg-danger-subtle text-danger mb-2 align-self-start" style="font-size: 0.7rem;">{{ $karya->kategori?->nama_kategori }}</span>
+                        <h5 class="card-title fw-bold" style="font-size: 1rem;">{{ Str::limit($karya->judul_karya, 30) }}</h5>
+                        <p class="card-text text-muted small mb-3 flex-grow-1 d-none d-sm-block" style="line-height: 1.5; font-size: 0.8rem;">{{ Str::limit($karya->deskripsi_singkat, 50) }}</p>
+                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                            <small class="text-muted text-truncate me-2" style="font-size: 0.75rem; max-width: 60%;">
                                 <i class="bi bi-person-circle me-1"></i> {{ $karya->nama_seniman }}
                             </small>
-                            <a href="{{ route('karya.show', $karya->slug) }}" class="btn btn-sm" style="background: var(--sumbawa-red); color: white; border-radius: 15px; padding: 3px 12px; font-size: 0.75rem;">
+                            <a href="{{ route('karya.show', $karya->slug) }}" class="btn btn-sm btn-danger rounded-pill px-3" style="font-size: 0.75rem;">
                                 Detail
                             </a>
                         </div>
@@ -78,6 +77,5 @@
         <div class="mt-4">
             {{ $karyaList->withQueryString()->links() }}
         </div>
-    </div>
 </section>
 @endsection

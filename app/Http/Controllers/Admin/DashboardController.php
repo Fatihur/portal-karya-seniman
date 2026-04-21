@@ -13,7 +13,8 @@ class DashboardController extends Controller
     {
         $stats = $buildAdminDashboardStats->handle();
 
-        $karyaTerbaru = KaryaSeni::with(['user', 'kategori'])
+        $karyaTerbaru = KaryaSeni::where('status_karya', '!=', 'draft')
+            ->with(['user', 'kategori'])
             ->latest()
             ->take(5)
             ->get();

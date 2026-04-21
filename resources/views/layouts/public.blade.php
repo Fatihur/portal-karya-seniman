@@ -39,7 +39,7 @@
     <!-- Page Specific Styles -->
     @stack('styles')
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg bg-danger navbar-dark fixed-top py-2">
         <div class="container" style="max-width: 1200px;">
@@ -134,11 +134,12 @@
     </div>
 
     <!-- Main Content -->
-    <main class="container bg-white py-4" style="max-width: 1200px; margin-top: 90px; min-height: calc(100vh - 150px);">
-        <div class="row g-4">
+    <main class="container bg-white py-4 flex-grow-1" style="max-width: 1200px; margin-top: 90px; margin-bottom: 70px;">
+        <div class="row g-4 h-100">
             <!-- Sidebar Desktop -->
             <aside class="col-lg-3 col-md-4 d-none d-md-block">
-                <div class="list-group mb-3">
+                <div class="position-sticky" style="top: 110px;">
+                    <div class="list-group mb-3">
                     <a href="{{ route('home') }}" class="list-group-item list-group-item-action {{ request()->routeIs('home') ? 'active bg-danger border-danger' : '' }}">
                         <i class="bi bi-house-door me-2"></i> Beranda
                     </a>
@@ -192,6 +193,7 @@
                     </form>
                     @endguest
                 </div>
+                </div>
             </aside>
 
             <!-- Main Content Area -->
@@ -202,7 +204,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-danger text-white py-3">
+    <footer class="bg-danger text-white py-3 mt-auto fixed-bottom" style="z-index: 1030;">
         <div class="container" style="max-width: 1200px;">
             &copy; Portal Karya Seniman Sumbawa Besar {{ date('Y') }}
         </div>
