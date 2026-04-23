@@ -16,15 +16,11 @@ class Kategori extends Model
         'nama_kategori',
         'slug',
         'deskripsi',
-        'ikon',
-        'gambar',
-        'urutan',
         'status_aktif',
     ];
 
     protected $casts = [
         'status_aktif' => 'boolean',
-        'urutan' => 'integer',
     ];
 
     /**

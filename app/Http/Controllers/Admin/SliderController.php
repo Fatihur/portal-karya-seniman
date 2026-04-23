@@ -13,7 +13,7 @@ class SliderController extends Controller
 {
     public function index()
     {
-        $sliders = Slider::orderBy('urutan')->get();
+        $sliders = Slider::latest()->get();
         return view('admin.slider.index', compact('sliders'));
     }
 

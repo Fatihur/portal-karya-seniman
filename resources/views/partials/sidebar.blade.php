@@ -11,7 +11,7 @@
     </li>
     
     @php
-        $kategoriList = App\Models\Kategori::aktif()->orderBy('urutan')->get();
+        $kategoriList = App\Models\Kategori::aktif()->orderBy('nama_kategori')->get();
         $isKategoriActive = request()->is('kategori*');
     @endphp
     
@@ -39,11 +39,6 @@
     <li>
         <a href="{{ route('karya.index') }}" class="{{ request()->routeIs('karya.*') ? 'active' : '' }}">
             <i class="bi bi-palette me-2"></i> Karya Seni
-        </a>
-    </li>
-    <li>
-        <a href="{{ route('profil') }}" class="{{ request()->routeIs('profil') ? 'active' : '' }}">
-            <i class="bi bi-info-circle me-2"></i> Profil Portal
         </a>
     </li>
 </ul>

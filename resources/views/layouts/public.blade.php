@@ -56,13 +56,22 @@
                 </a>
             </div>
             
-            <div class="d-none d-lg-block">
-                <form class="d-flex" action="{{ route('pencarian') }}" method="GET">
-                    <input class="form-control rounded-0 rounded-start" type="search" name="q" placeholder="Cari" value="{{ request('q') }}" aria-label="Search">
-                    <button class="btn btn-info rounded-0 rounded-end" type="submit">
-                        <i class="bi bi-search text-white"></i>
-                    </button>
-                </form>
+            <div class="d-none d-lg-flex align-items-center">
+                @guest
+                <a href="{{ route('login') }}" class="btn btn-outline-light px-4">
+                    <i class="bi bi-box-arrow-in-right me-1"></i> Login
+                </a>
+                @else
+                @if(Auth::user()->peran === 'admin')
+                <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-light px-4">
+                    <i class="bi bi-speedometer2 me-1"></i> Dashboard
+                </a>
+                @elseif(Auth::user()->peran === 'seniman')
+                <a href="{{ route('seniman.dashboard') }}" class="btn btn-outline-light px-4">
+                    <i class="bi bi-speedometer2 me-1"></i> Dashboard
+                </a>
+                @endif
+                @endguest
             </div>
         </div>
     </nav>
@@ -113,9 +122,6 @@
                 </a>
                 <a href="{{ route('karya.index') }}" class="list-group-item list-group-item-action py-3 {{ request()->routeIs('karya.*') ? 'active bg-danger border-danger' : '' }}">
                     <i class="bi bi-palette me-2"></i> Karya Seni
-                </a>
-                <a href="{{ route('profil') }}" class="list-group-item list-group-item-action py-3 {{ request()->routeIs('profil') ? 'active bg-danger border-danger' : '' }}">
-                    <i class="bi bi-info-circle me-2"></i> Profil Portal
                 </a>
                 @guest
                 <a href="{{ route('login') }}" class="list-group-item list-group-item-action py-3">
@@ -177,21 +183,6 @@
                     <a href="{{ route('karya.index') }}" class="list-group-item list-group-item-action {{ request()->routeIs('karya.*') ? 'active bg-danger border-danger' : '' }}">
                         <i class="bi bi-palette me-2"></i> Karya Seni
                     </a>
-                    <a href="{{ route('profil') }}" class="list-group-item list-group-item-action {{ request()->routeIs('profil') ? 'active bg-danger border-danger' : '' }}">
-                        <i class="bi bi-info-circle me-2"></i> Profil Portal
-                    </a>
-                    @guest
-                    <a href="{{ route('login') }}" class="list-group-item list-group-item-action">
-                        <i class="bi bi-box-arrow-in-right me-2"></i> Login
-                    </a>
-                    @else
-                    <a href="#" class="list-group-item list-group-item-action" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="bi bi-box-arrow-right me-2"></i> Logout
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                    @endguest
                 </div>
                 </div>
             </aside>

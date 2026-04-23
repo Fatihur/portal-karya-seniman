@@ -19,9 +19,6 @@ class UpdateKategoriRequest extends FormRequest
             'nama_kategori' => 'required|string|max:100|unique:kategori,nama_kategori,' . $kategori->id,
             'slug' => 'nullable|string|max:120|unique:kategori,slug,' . $kategori->id,
             'deskripsi' => 'nullable|string',
-            'ikon' => 'nullable|string|max:100',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-            'urutan' => 'nullable|integer',
             'status_aktif' => 'boolean',
         ];
     }

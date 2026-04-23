@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\KaryaSeni;
 use App\Models\Kategori;
 use App\Models\Slider;
-use App\Models\ProfilPortal;
 use App\Models\KataSambutan;
 use App\Models\ProfilSeniman;
 use Illuminate\Http\Request;
@@ -16,7 +15,6 @@ class HomeController extends Controller
     public function index()
     {
         $sliders = Slider::aktif()->get();
-        $profilPortal = ProfilPortal::first();
         
         $karyaUnggulan = KaryaSeni::publik()
             ->with(['user.profilSeniman', 'kategori'])
@@ -30,7 +28,7 @@ class HomeController extends Controller
             ->withCount(['karyaSeni' => function($query) {
                 $query->where('status_karya', 'dipublikasikan');
             }])
-            ->orderBy('urutan')
+            ->orderBy('nama_kategori')
             ->take(6)
             ->get();
         
@@ -44,7 +42,6 @@ class HomeController extends Controller
 
         return view('public.home', compact(
             'sliders',
-            'profilPortal',
             'karyaUnggulan',
             'kategoriUnggulan',
             'senimanUnggulan',
@@ -57,12 +54,6 @@ class HomeController extends Controller
     {
         $sambutan = KataSambutan::aktif()->first();
         return view('public.kata-sambutan', compact('sambutan'));
-    }
-    
-    public function profil()
-    {
-        $profil = ProfilPortal::first();
-        return view('public.profil', compact('profil'));
     }
     
     public function pencarian(Request $request)

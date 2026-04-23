@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Actions\Admin\SaveKategori;
-use App\Actions\Files\DeleteStoredFiles;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreKategoriRequest;
 use App\Http\Requests\Admin\UpdateKategoriRequest;
@@ -13,7 +12,7 @@ class KategoriController extends Controller
 {
     public function index()
     {
-        $kategoriList = Kategori::withCount('karyaSeni')->orderBy('urutan')->get();
+        $kategoriList = Kategori::withCount('karyaSeni')->orderBy('nama_kategori')->get();
         return view('admin.kategori.index', compact('kategoriList'));
     }
 
@@ -46,13 +45,12 @@ class KategoriController extends Controller
         return redirect()->route('admin.kategori.index')->with('success', 'Kategori berhasil diperbarui.');
     }
 
-    public function destroy(Kategori $kategori, DeleteStoredFiles $deleteStoredFiles)
+    public function destroy(Kategori $kategori)
     {
         if ($kategori->karyaSeni()->count() > 0) {
             return redirect()->route('admin.kategori.index')->with('error', 'Kategori tidak dapat dihapus karena masih memiliki karya.');
         }
 
-        $deleteStoredFiles->handle($kategori->gambar);
         $kategori->delete();
 
         return redirect()->route('admin.kategori.index')->with('success', 'Kategori berhasil dihapus.');

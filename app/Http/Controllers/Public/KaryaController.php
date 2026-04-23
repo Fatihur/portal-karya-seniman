@@ -23,7 +23,7 @@ class KaryaController extends Controller
             ->search($request->q)
             ->latest('dipublikasikan_pada')
             ->paginate(12);
-        $kategoriList = Kategori::aktif()->orderBy('urutan')->get();
+        $kategoriList = Kategori::aktif()->orderBy('nama_kategori')->get();
         
         return view('public.karya.index', compact('karyaList', 'kategoriList'));
     }

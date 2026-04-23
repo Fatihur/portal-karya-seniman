@@ -17,9 +17,6 @@ class StoreKategoriRequest extends FormRequest
             'nama_kategori' => 'required|string|max:100|unique:kategori',
             'slug' => 'nullable|string|max:120|unique:kategori',
             'deskripsi' => 'nullable|string',
-            'ikon' => 'nullable|string|max:100',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-            'urutan' => 'nullable|integer',
             'status_aktif' => 'boolean',
         ];
     }

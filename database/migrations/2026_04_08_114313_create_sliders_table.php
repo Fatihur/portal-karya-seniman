@@ -16,9 +16,6 @@ return new class extends Migration
             $table->string('judul', 200);
             $table->text('subjudul')->nullable();
             $table->string('gambar', 255);
-            $table->string('tautan', 255)->nullable();
-            $table->string('teks_tombol', 100)->nullable();
-            $table->integer('urutan')->default(0);
             $table->boolean('status_aktif')->default(true)->index();
             $table->timestamps();
         });

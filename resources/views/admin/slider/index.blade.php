@@ -18,7 +18,6 @@
                             <th style="width: 40px;">No</th>
                             <th style="width: 120px;">Preview</th>
                             <th>Judul</th>
-                            <th style="width: 80px;">Urutan</th>
                             <th style="width: 80px;">Status</th>
                             <th style="width: 100px;">Aksi</th>
                         </tr>
@@ -36,7 +35,6 @@
                                 <small class="text-muted d-none d-md-block">{{ Str::limit($slider->subjudul, 40) }}</small>
                                 @endif
                             </td>
-                            <td>{{ $slider->urutan }}</td>
                             <td>
                                 @if($slider->status_aktif)
                                 <span class="badge bg-success small">Aktif</span>

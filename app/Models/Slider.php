@@ -10,20 +10,16 @@ class Slider extends Model
         'judul',
         'subjudul',
         'gambar',
-        'tautan',
-        'teks_tombol',
-        'urutan',
         'status_aktif',
     ];
 
     protected $casts = [
         'status_aktif' => 'boolean',
-        'urutan' => 'integer',
     ];
 
     public function scopeAktif($query)
     {
-        return $query->where('status_aktif', true)->orderBy('urutan');
+        return $query->where('status_aktif', true)->latest();
     }
 
     public function getGambarUrlAttribute(): string

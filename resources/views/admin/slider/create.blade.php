@@ -43,32 +43,6 @@
                     @enderror
                 </div>
                 
-                <div class="form-group">
-                    <label for="tautan">Tautan/Link</label>
-                    <input type="text" class="form-control @error('tautan') is-invalid @enderror" 
-                           id="tautan" name="tautan" value="{{ old('tautan') }}" placeholder="https://...">
-                    @error('tautan')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-                
-                <div class="form-group">
-                    <label for="teks_tombol">Teks Tombol</label>
-                    <input type="text" class="form-control @error('teks_tombol') is-invalid @enderror" 
-                           id="teks_tombol" name="teks_tombol" value="{{ old('teks_tombol') }}" placeholder="Selengkapnya">
-                    @error('teks_tombol')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-                
-                <div class="form-group">
-                    <label for="urutan">Urutan</label>
-                    <input type="number" class="form-control @error('urutan') is-invalid @enderror" 
-                           id="urutan" name="urutan" value="{{ old('urutan', 0) }}">
-                    @error('urutan')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
                 
                 <div class="form-group">
                     <div class="custom-control custom-switch">

@@ -13,7 +13,6 @@ use App\Http\Controllers\Admin\SenimanController as AdminSenimanController;
 use App\Http\Controllers\Admin\KaryaSeniController as AdminKaryaSeniController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\KataSambutanController;
-use App\Http\Controllers\Admin\ProfilPortalController;
 use App\Http\Controllers\Seniman\DashboardController as SenimanDashboardController;
 use App\Http\Controllers\Seniman\KaryaSeniController as SenimanKaryaSeniController;
 use App\Http\Controllers\Seniman\ProfilController;
@@ -40,7 +39,6 @@ Route::get('/kategori/{slug}', [PublicKategoriController::class, 'show'])->name(
 
 // Halaman Statis
 Route::get('/kata-sambutan', [HomeController::class, 'kataSambutan'])->name('kata-sambutan');
-Route::get('/profil', [HomeController::class, 'profil'])->name('profil');
 Route::get('/pencarian', [HomeController::class, 'pencarian'])->name('pencarian');
 
 /*
@@ -92,11 +90,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     
     // Kata Sambutan
     Route::resource('kata-sambutan', KataSambutanController::class);
-    
-    // Profil Portal
-    Route::get('/profil-portal', [ProfilPortalController::class, 'index'])->name('profil-portal.index');
-    Route::get('/profil-portal/edit', [ProfilPortalController::class, 'edit'])->name('profil-portal.edit');
-    Route::put('/profil-portal', [ProfilPortalController::class, 'update'])->name('profil-portal.update');
+
 });
 
 /*

@@ -17,9 +17,6 @@ class UpdateSliderRequest extends FormRequest
             'judul' => 'required|string|max:200',
             'subjudul' => 'nullable|string',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
-            'tautan' => 'nullable|string|max:255',
-            'teks_tombol' => 'nullable|string|max:100',
-            'urutan' => 'nullable|integer',
             'status_aktif' => 'boolean',
         ];
     }

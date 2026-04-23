@@ -255,9 +255,6 @@
                     <i class="bi bi-images me-2"></i> Slider
                 </a>
                 
-                <a href="{{ route('admin.profil-portal.index') }}" class="list-group-item list-group-item-action py-3 {{ request()->routeIs('admin.profil-portal.*') ? 'active' : '' }}">
-                    <i class="bi bi-info-circle me-2"></i> Profil Portal
-                </a>
                 
                 <a href="{{ route('admin.kata-sambutan.index') }}" class="list-group-item list-group-item-action py-3 {{ request()->routeIs('admin.kata-sambutan.*') ? 'active' : '' }}">
                     <i class="bi bi-chat-square-quote me-2"></i> Kata Sambutan
@@ -299,9 +296,6 @@
                         <i class="bi bi-images me-2"></i> Slider
                     </a>
                     
-                    <a href="{{ route('admin.profil-portal.index') }}" class="list-group-item py-3 {{ request()->routeIs('admin.profil-portal.*') ? 'active' : '' }}">
-                        <i class="bi bi-info-circle me-2"></i> Profil Portal
-                    </a>
                     
                     <a href="{{ route('admin.kata-sambutan.index') }}" class="list-group-item py-3 {{ request()->routeIs('admin.kata-sambutan.*') ? 'active' : '' }}">
                         <i class="bi bi-chat-square-quote me-2"></i> Kata Sambutan

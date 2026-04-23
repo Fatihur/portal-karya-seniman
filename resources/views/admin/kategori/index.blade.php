@@ -18,7 +18,6 @@
                             <th style="width: 50px;">No</th>
                             <th>Nama</th>
                             <th class="d-none d-md-table-cell">Slug</th>
-                            <th>Ikon</th>
                             <th>Karya</th>
                             <th style="width: 80px;">Status</th>
                             <th style="width: 100px;">Aksi</th>
@@ -30,13 +29,6 @@
                             <td>{{ $index + 1 }}</td>
                             <td class="fw-medium">{{ $kategori->nama_kategori }}</td>
                             <td class="d-none d-md-table-cell"><code class="small">{{ $kategori->slug }}</code></td>
-                            <td>
-                                @if($kategori->ikon)
-                                <i class="bi {{ $kategori->ikon }} fs-5"></i>
-                                @else
-                                <span class="text-muted">-</span>
-                                @endif
-                            </td>
                             <td>
                                 <span class="badge bg-info">{{ $kategori->karya_seni_count }}</span>
                             </td>

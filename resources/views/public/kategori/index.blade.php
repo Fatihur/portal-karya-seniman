@@ -18,13 +18,7 @@
                 <a href="{{ route('kategori.show', $kategori->slug) }}" class="text-decoration-none">
                     <div class="modern-card text-center p-4 h-100">
                         <div class="mb-3">
-                            @if($kategori->gambar)
-                            <img src="{{ asset('storage/'.$kategori->gambar) }}" class="img-fluid rounded" style="max-height: 80px;" alt="{{ $kategori->nama_kategori }}">
-                            @elseif($kategori->ikon)
-                            <i class="bi {{ $kategori->ikon }} fs-1" style="color: var(--sumbawa-red);"></i>
-                            @else
                             <i class="bi bi-collection fs-1" style="color: var(--sumbawa-red);"></i>
-                            @endif
                         </div>
                         <h5 class="fw-semibold mb-2" style="color: var(--sumbawa-dark); font-size: 1.1rem;">{{ $kategori->nama_kategori }}</h5>
                         <p class="text-muted small mb-2" style="font-size: 0.8rem; line-height: 1.5;">{{ Str::limit($kategori->deskripsi, 60) }}</p>

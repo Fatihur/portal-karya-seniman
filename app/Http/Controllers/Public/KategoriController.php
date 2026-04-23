@@ -14,7 +14,7 @@ class KategoriController extends Controller
             ->withCount(['karyaSeni' => function($query) {
                 $query->where('status_karya', 'dipublikasikan');
             }])
-            ->orderBy('urutan')
+            ->orderBy('nama_kategori')
             ->get();
         
         return view('public.kategori.index', compact('kategoriList'));

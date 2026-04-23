@@ -16,9 +16,6 @@ return new class extends Migration
             $table->string('nama_kategori', 100)->unique();
             $table->string('slug', 120)->unique();
             $table->text('deskripsi')->nullable();
-            $table->string('ikon', 100)->nullable();
-            $table->string('gambar', 255)->nullable();
-            $table->integer('urutan')->default(0);
             $table->boolean('status_aktif')->default(true)->index();
             $table->timestamps();
         });

@@ -90,9 +90,14 @@
             
             <div class="mb-3">
                 <label for="bidang_seni_utama" class="form-label">Bidang Seni Utama *</label>
-                <input type="text" class="form-control" id="bidang_seni_utama" name="bidang_seni_utama" 
-                       value="{{ old('bidang_seni_utama') }}" required 
-                       placeholder="Contoh: Tari, Musik, Kriya, Lukis, dll">
+                <select class="form-control" id="bidang_seni_utama" name="bidang_seni_utama" required>
+                    <option value="">-- Pilih Bidang Seni --</option>
+                    @foreach($kategoriList as $kategori)
+                    <option value="{{ $kategori->nama_kategori }}" {{ old('bidang_seni_utama') == $kategori->nama_kategori ? 'selected' : '' }}>
+                        {{ $kategori->nama_kategori }}
+                    </option>
+                    @endforeach
+                </select>
             </div>
             
             <div class="mb-3">

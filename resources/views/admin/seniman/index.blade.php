@@ -60,7 +60,7 @@
                                 <span class="badge bg-info">{{ $user->karya_seni_count ?? 0 }}</span>
                             </td>
                             <td>
-                                @if($user->aktif)
+                                @if($user->status_akun === 'aktif')
                                 <span class="badge bg-success small">Aktif</span>
                                 @else
                                 <span class="badge bg-danger small">Nonaktif</span>

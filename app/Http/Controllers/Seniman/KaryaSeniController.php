@@ -24,7 +24,7 @@ class KaryaSeniController extends Controller
     
     public function create()
     {
-        $kategoriList = Kategori::aktif()->orderBy('urutan')->get();
+        $kategoriList = Kategori::aktif()->orderBy('nama_kategori')->get();
         return view('seniman.karya.create', compact('kategoriList'));
     }
     
@@ -39,7 +39,7 @@ class KaryaSeniController extends Controller
     {
         $this->authorize('update', $karyaSeni);
         
-        $kategoriList = Kategori::aktif()->orderBy('urutan')->get();
+        $kategoriList = Kategori::aktif()->orderBy('nama_kategori')->get();
         $karyaSeni->load('mediaKarya');
         
         return view('seniman.karya.edit', compact('karyaSeni', 'kategoriList'));
