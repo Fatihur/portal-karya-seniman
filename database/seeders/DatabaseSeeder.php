@@ -25,13 +25,9 @@ class DatabaseSeeder extends Seeder
         
         // Create Kategori
         $kategoriData = [
-            ['nama_kategori' => 'Sejarah', 'slug' => 'sejarah'],
-            ['nama_kategori' => 'Adat Istiadat', 'slug' => 'adat-istiadat'],
-            ['nama_kategori' => 'Bahasa', 'slug' => 'bahasa'],
-            ['nama_kategori' => 'Pakaian', 'slug' => 'pakaian'],
-            ['nama_kategori' => 'Kesenian', 'slug' => 'kesenian'],
-            ['nama_kategori' => 'Kuliner Tradisional', 'slug' => 'kuliner-tradisional'],
-            ['nama_kategori' => 'Wisata Cagar Budaya', 'slug' => 'wisata-cagar-budaya'],
+            ['nama_kategori' => 'Seni Rupa', 'slug' => 'seni-rupa'],
+            ['nama_kategori' => 'Seni Musik', 'slug' => 'seni-musik'],
+            ['nama_kategori' => 'Film', 'slug' => 'film'],
         ];
         
         foreach ($kategoriData as $kat) {
