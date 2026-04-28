@@ -11,7 +11,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Bootstrap 5.3 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -45,7 +45,7 @@
 
         body {
             background-color: var(--bg);
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
             color: var(--text);
             -webkit-font-smoothing: antialiased;
             display: flex;
@@ -53,7 +53,7 @@
         }
 
         h1, h2, h3, h4, h5, h6, .font-display {
-            font-family: 'Playfair Display', Georgia, serif;
+            font-family: 'Poppins', Georgia, serif;
         }
 
         .navbar-main {
@@ -281,8 +281,8 @@
                 <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
                     <img src="{{ asset('sumbawa.png') }}" alt="Logo Sumbawa" class="navbar-logo">
                     <div class="ms-2">
-                        <div style="font-size: 13px; line-height: 1.3; color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px; font-family: 'Plus Jakarta Sans', sans-serif;">PORTAL KARYA SENIMAN</div>
-                        <div style="font-size: 22px; line-height: 1.1; color: var(--primary-dark); font-weight: 700; font-family: 'Playfair Display', serif;">Sumbawa Besar</div>
+                        <div style="font-size: 13px; line-height: 1.3; color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px; font-family: 'Poppins', sans-serif;">PORTAL KARYA SENIMEN</div>
+                        <div style="font-size: 22px; line-height: 1.1; color: var(--primary-dark); font-weight: 700; font-family: 'Poppins', serif;">Sumbawa Besar</div>
                     </div>
                 </a>
             </div>

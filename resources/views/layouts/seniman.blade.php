@@ -11,7 +11,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -40,14 +40,14 @@
 
         body {
             background-color: var(--bg);
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
             color: var(--text);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
         h1, h2, h3, h4, h5, h6, .font-display {
-            font-family: 'Playfair Display', Georgia, serif;
+            font-family: 'Poppins', Georgia, serif;
         }
 
         .admin-navbar {
@@ -140,6 +140,7 @@
             border-radius: 0;
             padding: 12px 20px;
             color: var(--text);
+            font-size: 1rem;
             font-weight: 500;
             transition: all 0.15s ease;
         }
@@ -147,6 +148,31 @@
         .sidebar-desktop .list-group-item:hover {
             background-color: var(--primary-light);
             color: var(--primary);
+        }
+
+        .admin-content,
+        .admin-content .page-title-bar,
+        .admin-content .card,
+        .admin-content .card-body,
+        .admin-content .card-header,
+        .admin-content .table,
+        .admin-content .table th,
+        .admin-content .table td,
+        .admin-content .form-label,
+        .admin-content .btn,
+        .admin-content .badge {
+            font-size: 1rem;
+        }
+
+        .admin-content .card-body h6,
+        .admin-content .card-body .text-muted {
+            font-size: 1rem;
+        }
+
+        .admin-content .card-body h3,
+        .admin-content .page-title-bar h1,
+        .admin-content .page-title-bar h2 {
+            font-size: 1.25rem;
         }
 
         .sidebar-desktop .list-group-item.active {

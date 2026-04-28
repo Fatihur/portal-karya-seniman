@@ -6,16 +6,16 @@
     <!-- Statistik Cards -->
     <div class="row g-3 mb-4">
         <div class="col-xl-2 col-md-4 col-6">
-            <div class="card h-100 border-0" style="border-radius: var(--radius); box-shadow: var(--shadow); border-left: 4px solid #0ea5e9;">
+            <div class="card h-100 border-0" style="border-radius: var(--radius); box-shadow: var(--shadow); border-left: 4px solid #0ea5e9; background: #0ea5e9; color: #ffffff;">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h6 class="text-muted mb-1" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">Total Seniman</h6>
-                            <h3 class="mb-0 font-display fw-bold">{{ $totalSeniman }}</h3>
+                            <h6 class="mb-1" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: #ffffff;">Total Seniman</h6>
+                            <h3 class="mb-0 font-display fw-bold" style="color: #ffffff;">{{ $totalSeniman }}</h3>
                         </div>
                         <div class="flex-shrink-0">
-                            <div class="d-flex align-items-center justify-content-center rounded" style="width: 40px; height: 40px; background: #e0f2fe;">
-                                <i class="bi bi-people fs-5" style="color: #0ea5e9;"></i>
+                            <div class="d-flex align-items-center justify-content-center rounded" style="width: 40px; height: 40px; background: rgba(255,255,255,0.2);">
+                                <i class="bi bi-people fs-5" style="color: #ffffff;"></i>
                             </div>
                         </div>
                     </div>
@@ -24,16 +24,16 @@
         </div>
 
         <div class="col-xl-2 col-md-4 col-6">
-            <div class="card h-100 border-0" style="border-radius: var(--radius); box-shadow: var(--shadow); border-left: 4px solid var(--primary);">
+            <div class="card h-100 border-0" style="border-radius: var(--radius); box-shadow: var(--shadow); border-left: 4px solid #ef4444; background: #ef4444; color: #ffffff;">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h6 class="text-muted mb-1" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">Total Karya</h6>
-                            <h3 class="mb-0 font-display fw-bold">{{ $totalKarya }}</h3>
+                            <h6 class="mb-1" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: #ffffff;">Total Karya</h6>
+                            <h3 class="mb-0 font-display fw-bold" style="color: #ffffff;">{{ $totalKarya }}</h3>
                         </div>
                         <div class="flex-shrink-0">
-                            <div class="d-flex align-items-center justify-content-center rounded" style="width: 40px; height: 40px; background: var(--primary-light);">
-                                <i class="bi bi-palette fs-5" style="color: var(--primary);"></i>
+                            <div class="d-flex align-items-center justify-content-center rounded" style="width: 40px; height: 40px; background: rgba(255,255,255,0.2);">
+                                <i class="bi bi-palette fs-5" style="color: #ffffff;"></i>
                             </div>
                         </div>
                     </div>
@@ -42,16 +42,16 @@
         </div>
 
         <div class="col-xl-2 col-md-4 col-6">
-            <div class="card h-100 border-0" style="border-radius: var(--radius); box-shadow: var(--shadow); border-left: 4px solid #d97706;">
+            <div class="card h-100 border-0" style="border-radius: var(--radius); box-shadow: var(--shadow); border-left: 4px solid #f97316; background: #f97316; color: #ffffff;">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h6 class="text-muted mb-1" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">Menunggu Review</h6>
-                            <h3 class="mb-0 font-display fw-bold">{{ $karyaMenunggu }}</h3>
+                            <h6 class="mb-1" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: #ffffff;">Menunggu Review</h6>
+                            <h3 class="mb-0 font-display fw-bold" style="color: #ffffff;">{{ $karyaMenunggu }}</h3>
                         </div>
                         <div class="flex-shrink-0">
-                            <div class="d-flex align-items-center justify-content-center rounded" style="width: 40px; height: 40px; background: #fffbeb;">
-                                <i class="bi bi-clock fs-5" style="color: #d97706;"></i>
+                            <div class="d-flex align-items-center justify-content-center rounded" style="width: 40px; height: 40px; background: rgba(255,255,255,0.2);">
+                                <i class="bi bi-clock fs-5" style="color: #ffffff;"></i>
                             </div>
                         </div>
                     </div>
@@ -60,16 +60,16 @@
         </div>
 
         <div class="col-xl-2 col-md-4 col-6">
-            <div class="card h-100 border-0" style="border-radius: var(--radius); box-shadow: var(--shadow); border-left: 4px solid #64748b;">
+            <div class="card h-100 border-0" style="border-radius: var(--radius); box-shadow: var(--shadow); border-left: 4px solid #8b5cf6; background: #8b5cf6; color: #ffffff;">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h6 class="text-muted mb-1" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">Perlu Revisi</h6>
-                            <h3 class="mb-0 font-display fw-bold">{{ $karyaPerluRevisi }}</h3>
+                            <h6 class="mb-1" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: #ffffff;">Perlu Revisi</h6>
+                            <h3 class="mb-0 font-display fw-bold" style="color: #ffffff;">{{ $karyaPerluRevisi }}</h3>
                         </div>
                         <div class="flex-shrink-0">
-                            <div class="d-flex align-items-center justify-content-center rounded" style="width: 40px; height: 40px; background: #f1f5f9;">
-                                <i class="bi bi-pencil fs-5" style="color: #64748b;"></i>
+                            <div class="d-flex align-items-center justify-content-center rounded" style="width: 40px; height: 40px; background: rgba(255,255,255,0.2);">
+                                <i class="bi bi-pencil fs-5" style="color: #ffffff;"></i>
                             </div>
                         </div>
                     </div>
@@ -78,16 +78,16 @@
         </div>
 
         <div class="col-xl-2 col-md-4 col-6">
-            <div class="card h-100 border-0" style="border-radius: var(--radius); box-shadow: var(--shadow); border-left: 4px solid #059669;">
+            <div class="card h-100 border-0" style="border-radius: var(--radius); box-shadow: var(--shadow); border-left: 4px solid #06b6d4; background: #06b6d4; color: #ffffff;">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h6 class="text-muted mb-1" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">Dipublikasikan</h6>
-                            <h3 class="mb-0 font-display fw-bold">{{ $karyaDipublikasikan }}</h3>
+                            <h6 class="mb-1" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: #ffffff;">Dipublikasikan</h6>
+                            <h3 class="mb-0 font-display fw-bold" style="color: #ffffff;">{{ $karyaDipublikasikan }}</h3>
                         </div>
                         <div class="flex-shrink-0">
-                            <div class="d-flex align-items-center justify-content-center rounded" style="width: 40px; height: 40px; background: #ecfdf5;">
-                                <i class="bi bi-check-circle fs-5" style="color: #059669;"></i>
+                            <div class="d-flex align-items-center justify-content-center rounded" style="width: 40px; height: 40px; background: rgba(255,255,255,0.2);">
+                                <i class="bi bi-check-circle fs-5" style="color: #ffffff;"></i>
                             </div>
                         </div>
                     </div>
@@ -96,16 +96,16 @@
         </div>
 
         <div class="col-xl-2 col-md-4 col-6">
-            <div class="card h-100 border-0" style="border-radius: var(--radius); box-shadow: var(--shadow); border-left: 4px solid #7c3aed;">
+            <div class="card h-100 border-0" style="border-radius: var(--radius); box-shadow: var(--shadow); border-left: 4px solid #ec4899; background: #ec4899; color: #ffffff;">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h6 class="text-muted mb-1" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">Kategori</h6>
-                            <h3 class="mb-0 font-display fw-bold">{{ $kategoriAktif }}</h3>
+                            <h6 class="mb-1" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: #ffffff;">Kategori</h6>
+                            <h3 class="mb-0 font-display fw-bold" style="color: #ffffff;">{{ $kategoriAktif }}</h3>
                         </div>
                         <div class="flex-shrink-0">
-                            <div class="d-flex align-items-center justify-content-center rounded" style="width: 40px; height: 40px; background: #ede9fe;">
-                                <i class="bi bi-tags fs-5" style="color: #7c3aed;"></i>
+                            <div class="d-flex align-items-center justify-content-center rounded" style="width: 40px; height: 40px; background: rgba(255,255,255,0.2);">
+                                <i class="bi bi-tags fs-5" style="color: #ffffff;"></i>
                             </div>
                         </div>
                     </div>

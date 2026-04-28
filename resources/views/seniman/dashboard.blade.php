@@ -17,16 +17,16 @@
     <!-- Statistik Cards -->
     <div class="row g-3 mb-4">
         <div class="col-xl-3 col-md-6 col-12">
-            <div class="card h-100 border-0" style="border-radius: var(--radius); box-shadow: var(--shadow); border-left: 4px solid var(--primary);">
+            <div class="card h-100 border-0" style="border-radius: var(--radius); box-shadow: var(--shadow); background: var(--primary); color: #ffffff; border: none;">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h6 class="text-muted mb-1" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">Total Karya</h6>
-                            <h3 class="mb-0 font-display fw-bold">{{ $statistik['total'] }}</h3>
+                            <h6 class="mb-1" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; color: rgba(255,255,255,0.85);">Total Karya</h6>
+                            <h3 class="mb-0 font-display fw-bold" style="color: #ffffff;">{{ $statistik['total'] }}</h3>
                         </div>
                         <div class="flex-shrink-0">
-                            <div class="d-flex align-items-center justify-content-center rounded" style="width: 48px; height: 48px; background: var(--primary-light);">
-                                <i class="bi bi-palette fs-4" style="color: var(--primary);"></i>
+                            <div class="d-flex align-items-center justify-content-center rounded" style="width: 48px; height: 48px; background: rgba(255,255,255,0.2);">
+                                <i class="bi bi-palette fs-4" style="color: #ffffff;"></i>
                             </div>
                         </div>
                     </div>
@@ -35,16 +35,16 @@
         </div>
 
         <div class="col-xl-3 col-md-6 col-12">
-            <div class="card h-100 border-0" style="border-radius: var(--radius); box-shadow: var(--shadow); border-left: 4px solid #64748b;">
+            <div class="card h-100 border-0" style="border-radius: var(--radius); box-shadow: var(--shadow); background: #6c757d; color: #ffffff; border: none;">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h6 class="text-muted mb-1" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">Draft</h6>
-                            <h3 class="mb-0 font-display fw-bold">{{ $statistik['draft'] }}</h3>
+                            <h6 class="mb-1" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; color: rgba(255,255,255,0.85);">Draft</h6>
+                            <h3 class="mb-0 font-display fw-bold" style="color: #ffffff;">{{ $statistik['draft'] }}</h3>
                         </div>
                         <div class="flex-shrink-0">
-                            <div class="d-flex align-items-center justify-content-center rounded" style="width: 48px; height: 48px; background: #f1f5f9;">
-                                <i class="bi bi-pencil fs-4" style="color: #64748b;"></i>
+                            <div class="d-flex align-items-center justify-content-center rounded" style="width: 48px; height: 48px; background: rgba(255,255,255,0.2);">
+                                <i class="bi bi-pencil fs-4" style="color: #ffffff;"></i>
                             </div>
                         </div>
                     </div>
@@ -53,16 +53,16 @@
         </div>
 
         <div class="col-xl-3 col-md-6 col-12">
-            <div class="card h-100 border-0" style="border-radius: var(--radius); box-shadow: var(--shadow); border-left: 4px solid #d97706;">
+            <div class="card h-100 border-0" style="border-radius: var(--radius); box-shadow: var(--shadow); background: #fd7e14; color: #ffffff; border: none;">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h6 class="text-muted mb-1" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">Menunggu Review</h6>
-                            <h3 class="mb-0 font-display fw-bold">{{ $statistik['diajukan'] }}</h3>
+                            <h6 class="mb-1" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; color: rgba(255,255,255,0.85);">Menunggu Review</h6>
+                            <h3 class="mb-0 font-display fw-bold" style="color: #ffffff;">{{ $statistik['diajukan'] }}</h3>
                         </div>
                         <div class="flex-shrink-0">
-                            <div class="d-flex align-items-center justify-content-center rounded" style="width: 48px; height: 48px; background: #fffbeb;">
-                                <i class="bi bi-clock fs-4" style="color: #d97706;"></i>
+                            <div class="d-flex align-items-center justify-content-center rounded" style="width: 48px; height: 48px; background: rgba(255,255,255,0.2);">
+                                <i class="bi bi-clock fs-4" style="color: #ffffff;"></i>
                             </div>
                         </div>
                     </div>
@@ -71,16 +71,16 @@
         </div>
 
         <div class="col-xl-3 col-md-6 col-12">
-            <div class="card h-100 border-0" style="border-radius: var(--radius); box-shadow: var(--shadow); border-left: 4px solid #059669;">
+            <div class="card h-100 border-0" style="border-radius: var(--radius); box-shadow: var(--shadow); background: #198754; color: #ffffff; border: none;">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h6 class="text-muted mb-1" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;">Dipublikasikan</h6>
-                            <h3 class="mb-0 font-display fw-bold">{{ $statistik['dipublikasikan'] }}</h3>
+                            <h6 class="mb-1" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; color: rgba(255,255,255,0.85);">Dipublikasikan</h6>
+                            <h3 class="mb-0 font-display fw-bold" style="color: #ffffff;">{{ $statistik['dipublikasikan'] }}</h3>
                         </div>
                         <div class="flex-shrink-0">
-                            <div class="d-flex align-items-center justify-content-center rounded" style="width: 48px; height: 48px; background: #ecfdf5;">
-                                <i class="bi bi-check-circle fs-4" style="color: #059669;"></i>
+                            <div class="d-flex align-items-center justify-content-center rounded" style="width: 48px; height: 48px; background: rgba(255,255,255,0.2);">
+                                <i class="bi bi-check-circle fs-4" style="color: #ffffff;"></i>
                             </div>
                         </div>
                     </div>

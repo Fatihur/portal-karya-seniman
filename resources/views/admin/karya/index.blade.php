@@ -7,14 +7,14 @@
     <div class="row g-3 mb-4">
         <div class="col-lg-2 col-md-4 col-6">
             <a href="{{ route('admin.karya.index') }}" class="text-decoration-none">
-                <div class="card {{ !request('status') ? 'border-danger' : '' }}">
+                <div class="card" style="background: #0d6efd; color: #ffffff; border: none;">
                     <div class="card-body p-3 d-flex align-items-center">
                         <div class="flex-shrink-0">
-                            <i class="bi bi-palette fs-2 text-secondary"></i>
+                            <i class="bi bi-palette fs-2" style="color: #ffffff;"></i>
                         </div>
                         <div class="flex-grow-1 ms-3">
-                            <h6 class="text-muted mb-0">Total</h6>
-                            <h5 class="mb-0">{{ $statusCounts['total'] }}</h5>
+                            <h6 class="mb-0" style="color: rgba(255,255,255,0.85);">Total</h6>
+                            <h5 class="mb-0" style="color: #ffffff;">{{ $statusCounts['total'] }}</h5>
                         </div>
                     </div>
                 </div>
@@ -23,14 +23,14 @@
         
         <div class="col-lg-2 col-md-4 col-6">
             <a href="{{ route('admin.karya.index', ['status' => 'diajukan']) }}" class="text-decoration-none">
-                <div class="card {{ request('status') == 'diajukan' ? 'border-warning' : '' }}">
+                <div class="card" style="background: #ffc107; color: #ffffff; border: none;">
                     <div class="card-body p-3 d-flex align-items-center">
                         <div class="flex-shrink-0">
-                            <i class="bi bi-clock fs-2 text-warning"></i>
+                            <i class="bi bi-clock fs-2" style="color: #ffffff;"></i>
                         </div>
                         <div class="flex-grow-1 ms-3">
-                            <h6 class="text-muted mb-0">Menunggu</h6>
-                            <h5 class="mb-0">{{ $statusCounts['diajukan'] }}</h5>
+                            <h6 class="mb-0" style="color: rgba(255,255,255,0.85);">Menunggu</h6>
+                            <h5 class="mb-0" style="color: #ffffff;">{{ $statusCounts['diajukan'] }}</h5>
                         </div>
                     </div>
                 </div>
@@ -39,14 +39,14 @@
         
         <div class="col-lg-2 col-md-4 col-6">
             <a href="{{ route('admin.karya.index', ['status' => 'perlu_revisi']) }}" class="text-decoration-none">
-                <div class="card {{ request('status') == 'perlu_revisi' ? 'border-secondary' : '' }}">
+                <div class="card" style="background: #6f42c1; color: #ffffff; border: none;">
                     <div class="card-body p-3 d-flex align-items-center">
                         <div class="flex-shrink-0">
-                            <i class="bi bi-pencil fs-2 text-secondary"></i>
+                            <i class="bi bi-pencil fs-2" style="color: #ffffff;"></i>
                         </div>
                         <div class="flex-grow-1 ms-3">
-                            <h6 class="text-muted mb-0">Revisi</h6>
-                            <h5 class="mb-0">{{ $statusCounts['perlu_revisi'] }}</h5>
+                            <h6 class="mb-0" style="color: rgba(255,255,255,0.85);">Revisi</h6>
+                            <h5 class="mb-0" style="color: #ffffff;">{{ $statusCounts['perlu_revisi'] }}</h5>
                         </div>
                     </div>
                 </div>
@@ -55,14 +55,14 @@
         
         <div class="col-lg-2 col-md-4 col-6">
             <a href="{{ route('admin.karya.index', ['status' => 'dipublikasikan']) }}" class="text-decoration-none">
-                <div class="card {{ request('status') == 'dipublikasikan' ? 'border-success' : '' }}">
+                <div class="card" style="background: #198754; color: #ffffff; border: none;">
                     <div class="card-body p-3 d-flex align-items-center">
                         <div class="flex-shrink-0">
-                            <i class="bi bi-check-circle fs-2 text-success"></i>
+                            <i class="bi bi-check-circle fs-2" style="color: #ffffff;"></i>
                         </div>
                         <div class="flex-grow-1 ms-3">
-                            <h6 class="text-muted mb-0">Publikasi</h6>
-                            <h5 class="mb-0">{{ $statusCounts['dipublikasikan'] }}</h5>
+                            <h6 class="mb-0" style="color: rgba(255,255,255,0.85);">Publikasi</h6>
+                            <h5 class="mb-0" style="color: #ffffff;">{{ $statusCounts['dipublikasikan'] }}</h5>
                         </div>
                     </div>
                 </div>
@@ -71,14 +71,14 @@
         
         <div class="col-lg-2 col-md-4 col-6">
             <a href="{{ route('admin.karya.index', ['status' => 'ditolak']) }}" class="text-decoration-none">
-                <div class="card {{ request('status') == 'ditolak' ? 'border-danger' : '' }}">
+                <div class="card" style="background: #dc3545; color: #ffffff; border: none;">
                     <div class="card-body p-3 d-flex align-items-center">
                         <div class="flex-shrink-0">
-                            <i class="bi bi-x-circle fs-2 text-danger"></i>
+                            <i class="bi bi-x-circle fs-2" style="color: #ffffff;"></i>
                         </div>
                         <div class="flex-grow-1 ms-3">
-                            <h6 class="text-muted mb-0">Ditolak</h6>
-                            <h5 class="mb-0">{{ $statusCounts['ditolak'] }}</h5>
+                            <h6 class="mb-0" style="color: rgba(255,255,255,0.85);">Ditolak</h6>
+                            <h5 class="mb-0" style="color: #ffffff;">{{ $statusCounts['ditolak'] }}</h5>
                         </div>
                     </div>
                 </div>
